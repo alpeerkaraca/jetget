@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "54981235964",
+    "firebase_url": "https://jetget-dc76f-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "jetget-dc76f",
+    "storage_bucket": "jetget-dc76f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:54981235964:android:bdd6cf1c6b6a232896f379",
+        "android_client_info": {
+          "package_name": "com.example.jetget"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe9RK9MjcWiJ7BSfKIOy5sQ-fzh8lu3XE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
