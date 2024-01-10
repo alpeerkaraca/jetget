@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:jetget/firebase_options.dart';
+import 'package:jetget/pages/home.dart';
 import 'package:jetget/pages/login.dart';
 import 'package:jetget/pages/register.dart';
 
