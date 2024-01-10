@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetget/pages/login.dart';
 import 'package:jetget/service/auth.dart';
+import 'package:jetget/palette.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -15,50 +16,77 @@ class RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _roleController = TextEditingController();
-
+  final ColorPalette _colorPalette = ColorPalette();
   final AuthService _authService = AuthService();
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-        backgroundColor: Colors.white10,
+        backgroundColor: _colorPalette.black.withOpacity(.7),
         body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(0),
+          child:
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Container(
-              width: size.width * .85,
-              height: size.height*.85,
+              width: size.width * .75,
+              height: size.height * .75,
               decoration: BoxDecoration(
-                color: Colors.black38.withOpacity(.75),
+                color: _colorPalette.black,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(.5),
+                    color: _colorPalette.bg.withOpacity(.5),
                     blurRadius: 10,
                     spreadRadius: 2,
                   ),
                 ],
               ),
               child: Padding(
-
                   padding: const EdgeInsets.all(15),
-                  child:Center(
+                  child: Center(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:
-                      [
-                        const Image(image: AssetImage('assets/images/logo.png'),
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Image(
+                          image: AssetImage('assets/images/logo.png'),
                           width: 175,
-                          height: 175,),
+                          height: 175,
+                        ),
                         const Text(
                           "Aramıza Katılın\n",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 25,
                             fontWeight: FontWeight.w700,
-
                           ),
                         ),
+                        TextField(
+                          controller: _userNameController,
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                          cursorColor: Colors.white,
+                          keyboardType: TextInputType.name,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            labelText: "Kullanıcı Adı",
+                            hintText: "example",
+                            hintStyle: TextStyle(
+                              color: Colors.white.withOpacity(.75),
+                              fontFamily: "OpenSans",
+                              fontSize: 14,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
                         TextField(
                           controller: _emailController,
                           style: const TextStyle(
@@ -88,6 +116,7 @@ class RegisterPageState extends State<RegisterPage> {
                           controller: _passwordController,
                           style: const TextStyle(
                             color: Colors.white,
+                            decorationColor: Colors.white,
                           ),
                           cursorColor: Colors.white,
                           obscureText: true,
@@ -109,55 +138,7 @@ class RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        TextField(
-                          controller: _userNameController,
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                          cursorColor: Colors.white,
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                            labelText: "Kullanıcı Adı",
-                            hintText: "example",
-                            hintStyle: TextStyle(
-                              color: Colors.white.withOpacity(.75),
-                              fontFamily: "OpenSans",
-                              fontSize: 14,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        TextField(
-                          controller: _roleController,
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                          cursorColor: Colors.white,
-                          keyboardType: TextInputType.name,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                            labelText: "Rol",
-                            hintText: "example",
-                            hintStyle: TextStyle(
-                              color: Colors.white.withOpacity(.75),
-                              fontFamily: "OpenSans",
-                              fontSize: 14,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ),
+
                         const SizedBox(height: 10),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -165,23 +146,38 @@ class RegisterPageState extends State<RegisterPage> {
                           ),
                           onPressed: () async {
                             try {
-                                await _authService.registerUser(_userNameController.text, _emailController.text, _passwordController.text, _roleController.text).then((value) => {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const LoginPage()),
-                                  )});
-                            }
-                            catch(e) {
+                              await _authService
+                                  .registerUser(
+                                      _userNameController.text,
+                                      _emailController.text,
+                                      _passwordController.text)
+                                  .then((value) => {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const LoginPage()),
+                                        )
+                                      });
+                            } catch (e) {
                               var messsage = "";
-                              if(e.toString().contains("email-already-in-use"))
-                                {messsage = "Bu e-posta zaten kullanılıyor.";}
-                              else if(e.toString().contains("invalid-email")) {
+                              if (e
+                                  .toString()
+                                  .contains("email-already-in-use")) {
+                                messsage = "Bu e-posta zaten kullanılıyor.";
+                              } else if (e
+                                  .toString()
+                                  .contains("invalid-email")) {
                                 messsage = "Geçersiz e-posta adresi.";
-                              } else if(e.toString().contains("weak-password")){
-                                messsage = "Parola zayıf.";}
-                              else {
-                                messsage = "Bilinmeyen bir hata oluştu.";}
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(messsage)));
+                              } else if (e
+                                  .toString()
+                                  .contains("weak-password")) {
+                                messsage = "Parola zayıf.";
+                              } else {
+                                messsage = "Bilinmeyen bir hata oluştu.";
+                              }
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(messsage)));
                             }
                           },
                           child: const Text(
@@ -192,14 +188,31 @@ class RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ),
-
+                        const SizedBox(height: 10),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.transparent,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()),
+                            );
+                          },
+                          child: const Text(
+                            "Zaten bir hesabınız var mı? Giriş Yapın",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                  )
-              ),
+                  )),
             ),
           ),
-        )
-    );
+        ));
   }
 }
