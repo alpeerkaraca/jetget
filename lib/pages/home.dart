@@ -1,101 +1,90 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jetget/service/auth.dart';
 import 'package:jetget/pages/login.dart';
+import 'package:jetget/widgets/HomaAppBar.dart';
+import 'package:jetget/widgets/ItemsWidget.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-  static const String routeName = "/home";
-
+class HomePage extends StatelessWidget {
   @override
-  HomePageState createState() => HomePageState();
-}
-
-class HomePageState extends State<HomePage> {
-  final AuthService _authService = AuthService();
-  @override
-  Widget build(BuildContext context){
-    var size = MediaQuery.of(context).size;
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Container(
-            width: size.width,
-            height: size.height,
+      body: ListView(
+        children: [
+          HomeAppBar(),
+          Container(
+            //temporary height
+            padding: EdgeInsets.only(top: 15),
             decoration: BoxDecoration(
-              color: Colors.deepOrange.withOpacity(.75),
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(.5),
-                  blurRadius: 10,
-                  spreadRadius: 2,
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child:Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:
-                  [
-                    const Text(
-                      "Welcome to JetGet",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      "You are logged in!",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        _authService.signOut().then((value) =>
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginPage(),
-                              ),
-                            ));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepOrange,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 50,
-                          vertical: 20,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: const Text(
-                        "Logout",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              color: Color(0xFFEDECF2),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(35),
+                topRight: Radius.circular(35),
               ),
             ),
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Row(children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 5),
+                      height: 50,
+                      width: 300,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Search here...",
+                        ),
+                      ),
+                    ),
+                  ]),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  child: Text(
+                    "Products",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF4C53A5),
+                    ),
+                  ),
+                ),
+                //Items Widget
+                ItemsWidget(),
+              ],
+            ),
           ),
-        ),
+        ],
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.transparent,
+        onTap: (index) {},
+        height: 70,
+        color: Color(0xFF4C53A5),
+        items: [
+          Icon(CupertinoIcons.cart_fill, size: 30, color: Colors.white),
+          Icon(
+            Icons.home,
+            size: 30,
+            color: Colors.white,
+          ),
+          Icon(
+            Icons.list,
+            size: 30,
+            color: Colors.white,
+          ),
+        ],
       ),
     );
   }

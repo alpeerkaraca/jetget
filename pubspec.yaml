@@ -38,6 +38,9 @@ dependencies:
   firebase_core: ^2.24.2
   cloud_firestore: ^4.14.0
   firebase_auth: ^4.16.0
+  badges: ^3.1.2
+  curved_navigation_bar: ^1.0.3
+  clippy_flutter: ^2.0.0-nullsafety.1
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +66,13 @@ flutter:
 
   assets:
     - assets/images/logo.png
+    - assets/images/ayakkabi.png
+    - assets/images/2.png
+    - assets/images/3.png
+    - assets/images/4.png
+    - assets/images/5.png
+    - assets/images/6.png
+    - assets/images/7.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

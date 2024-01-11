@@ -125,7 +125,7 @@ class LoginPageState extends State<LoginPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const HomePage()))
+                                                    HomePage()))
                                       });
                             } catch (e) {
                               if (e.toString().contains(
