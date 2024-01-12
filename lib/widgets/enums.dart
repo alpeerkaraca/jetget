@@ -1,0 +1,1 @@
+enum Currency { USD, TRY, EUR }
