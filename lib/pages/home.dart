@@ -6,6 +6,9 @@ import 'package:jetget/service/auth.dart';
 import 'package:jetget/pages/login.dart';
 import 'package:jetget/widgets/HomaAppBar.dart';
 import 'package:jetget/widgets/ItemsWidget.dart';
+import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'add-product.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -69,11 +72,19 @@ class HomePage extends StatelessWidget {
       ),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
-        onTap: (index) {},
+        onTap: (index) {
+          // "ProductAddPage" adlı sayfaya geçiş yapmak için Navigator'ı kullanıyoruz.
+          if (index == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProductAddPage()),
+            );
+          }
+        },
         height: 70,
         color: Color(0xFF4C53A5),
         items: [
-          Icon(CupertinoIcons.cart_fill, size: 30, color: Colors.white),
+          Icon(Icons.add, size: 30, color: Colors.white),
           Icon(
             Icons.home,
             size: 30,
