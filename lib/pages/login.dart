@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jetget/pages/home.dart';
 import 'package:jetget/pages/register.dart';
 import 'package:jetget/service/auth.dart';
@@ -125,7 +124,7 @@ class LoginPageState extends State<LoginPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HomePage()))
+                                                     const HomePage()))
                                       });
                             } catch (e) {
                               if (e.toString().contains(

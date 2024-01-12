@@ -5,7 +5,6 @@ import 'package:jetget/pages/cart.dart';
 import 'package:jetget/pages/home.dart';
 import 'package:jetget/pages/item.dart';
 import 'package:jetget/pages/login.dart';
-import 'package:jetget/pages/register.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,10 +25,10 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         routes: {
-          "/": (context) => LoginPage(),
-          "cartPage": (context) => CartPage(),
-          "itemPage": (context) => ItemPage(),
-          "homePage": (context) => HomePage(),
+          "/": (context) => const LoginPage(),
+          "cartPage": (context) => const CartPage(),
+          "itemPage": (context) => const ItemPage(),
+          "homePage": (context) => const HomePage(),
         });
   }
 }

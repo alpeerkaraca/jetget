@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ItemsWidget extends StatelessWidget {
+  const ItemsWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: FirebaseFirestore.instance.collection('Products').get(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Veri yüklenene kadar loading göster
+          return const CircularProgressIndicator(); // Veri yüklenene kadar loading göster
         }
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
@@ -20,14 +22,14 @@ class ItemsWidget extends StatelessWidget {
 
         return GridView.count(
           childAspectRatio: 0.68,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           crossAxisCount: 2,
           shrinkWrap: true,
           children: [
             for (var product in products)
               Container(
-                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -40,7 +42,7 @@ class ItemsWidget extends StatelessWidget {
                         Navigator.pushNamed(context, "itemPage");
                       },
                       child: Container(
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         child: Image.file(
                           File(product['productImg']), // Firestore'dan çektiğiniz dosya yolu
                           height: 120,
@@ -49,11 +51,11 @@ class ItemsWidget extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.only(bottom: 8),
                       alignment: Alignment.centerLeft,
                       child: Text(
                         product['productName'],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           color: Color(0XFF4C53A5),
                           fontWeight: FontWeight.bold,
@@ -64,19 +66,19 @@ class ItemsWidget extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         product['desc'],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Color(0XFF4C53A5),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('${product['price']}'),
-                          Icon(Icons.shopping_cart_checkout),
+                          const Icon(Icons.shopping_cart_checkout),
                         ],
                       ),
                     ),
