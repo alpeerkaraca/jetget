@@ -4,10 +4,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jetget/palette.dart';
 import 'package:jetget/service/product_service.dart' as ProductService; // Alias added
 import 'package:jetget/widgets/ProductFormWidget.dart' as ProductFormWidget;
-import 'package:jetget/widgets/enums.dart' as ProductFormWidget; // Alias added
+// Alias added
 // Alias added
 
 class ProductAddPage extends StatefulWidget {
+  const ProductAddPage({super.key});
+
   @override
   _ProductAddPageState createState() => _ProductAddPageState();
 }
@@ -22,7 +24,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
   Future _getImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -78,12 +80,12 @@ class _ProductAddPageState extends State<ProductAddPage> {
           ),
         ),
         backgroundColor: Colors.white,
-        actions: [
+        actions: const [
           // Bu kısmı Badge widget'ını ekleyerek güncelleyebilirsiniz.
         ],
       ),
       body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         children: [
           ProductFormWidget.ProductFormWidget( // Specifying the alias
             productNameController: _productNameController,

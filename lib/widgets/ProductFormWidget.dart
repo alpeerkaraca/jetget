@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:jetget/palette.dart';
 import 'enums.dart';
 
@@ -15,7 +14,7 @@ class ProductFormWidget extends StatefulWidget {
   final Function getImage;
   final Function submitForm;
 
-  ProductFormWidget({
+  const ProductFormWidget({super.key, 
     required this.productNameController,
     required this.categoryController,
     required this.descriptionController,
@@ -65,9 +64,9 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
               maxLines: 3,
             ),
             _buildPriceField(),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildImagePicker(),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildSubmitButton(),
           ],
         ),
@@ -84,7 +83,7 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -106,13 +105,13 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
             controller: widget.priceController,
             decoration: InputDecoration(
               labelText: 'Price',
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
               suffixIcon: Container(
-                margin: EdgeInsets.only(right: 12.0),
-                padding: EdgeInsets.all(12.0),
-                child: Text(
+                margin: const EdgeInsets.only(right: 12.0),
+                padding: const EdgeInsets.all(12.0),
+                child: const Text(
                   '₺',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -121,7 +120,7 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
                 ),
               ),
             ),
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'This field is required';
@@ -159,7 +158,7 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
             fit: BoxFit.cover,
           ),
         )
-            : Center(
+            : const Center(
           child: Icon(
             Icons.camera_alt,
             color: Colors.grey,
@@ -176,7 +175,7 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
       style: ElevatedButton.styleFrom(
           backgroundColor: _colorPalette.darkAqua // Buradaki renk istediğiniz renge değiştirilebilir
       ),
-      child: Text(
+      child: const Text(
         'Add Product',
         style: TextStyle(
           color: Colors.white,
