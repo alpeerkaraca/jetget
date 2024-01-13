@@ -1,6 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:jetget/pages/acccount_detail.dart';
 import 'package:jetget/widgets/HomaAppBar.dart';
+import 'package:jetget/widgets/ItemsWidget.dart';
 import 'add-product.dart';
 import 'package:jetget/widgets/ItemsWidget.dart';
 
@@ -62,7 +64,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 //Items Widget
-                ItemsWidget(),
+                const ItemsWidget(),
               ],
             ),
           ),
@@ -71,11 +73,16 @@ class HomePage extends StatelessWidget {
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         onTap: (index) {
-          // "ProductAddPage" adlı sayfaya geçiş yapmak için Navigator'ı kullanıyoruz.
-          if (index == 0) {
+          if (index == 1) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ProductAddPage()),
+            );
+          }
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AccountDetails()),
             );
           }
         },
@@ -89,7 +96,7 @@ class HomePage extends StatelessWidget {
             color: Colors.white,
           ),
           Icon(
-            Icons.list,
+            Icons.person,
             size: 30,
             color: Colors.white,
           ),

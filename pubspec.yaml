@@ -41,8 +41,9 @@ dependencies:
   badges: ^3.1.2
   curved_navigation_bar: ^1.0.3
   clippy_flutter: ^2.0.0-nullsafety.1
-  image_picker: ^0.8.4+2
+  image_picker: ^1.0.7
   firebase_storage: ^11.6.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:

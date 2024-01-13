@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jetget/pages/login.dart';
-import 'package:jetget/service/auth.dart';
 import 'package:jetget/palette.dart';
+import 'package:jetget/service/auth.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -15,7 +15,6 @@ class RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
-  final TextEditingController _roleController = TextEditingController();
   final ColorPalette _colorPalette = ColorPalette();
   final AuthService _authService = AuthService();
 

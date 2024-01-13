@@ -12,7 +12,8 @@ class ProductFormWidget extends StatefulWidget {
   final Function getImage;
   final Function submitForm;
 
-  const ProductFormWidget({super.key, 
+  const ProductFormWidget({
+    super.key,
     required this.productNameController,
     required this.categoryController,
     required this.descriptionController,

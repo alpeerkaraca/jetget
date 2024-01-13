@@ -29,7 +29,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
   Future _getImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {

@@ -61,11 +61,11 @@ class ItemsWidget extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.only(bottom: 8),
+                      padding: const EdgeInsets.only(bottom: 8),
                       alignment: Alignment.centerLeft,
                       child: Text(
                         product['productName'],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           color: Color(0XFF4C53A5),
                           fontWeight: FontWeight.bold,
