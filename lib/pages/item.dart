@@ -4,15 +4,17 @@ import 'package:jetget/widgets/ItemAppBar.dart';
 import 'package:jetget/widgets/ItemBottomNavBar.dart';
 
 class ItemPage extends StatelessWidget {
+  const ItemPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEDECF2),
+      backgroundColor: const Color(0xFFEDECF2),
       body: ListView(
         children: [
-          ItemAppBar(),
+          const ItemAppBar(),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Image.asset(
               "assets/images/ayakkabi.png",
               height: 300,
@@ -25,7 +27,7 @@ class ItemPage extends StatelessWidget {
             child: Container(
               width: double.infinity,
               color: Colors.white,
-              child: Padding(
+              child: const Padding(
                 padding: EdgeInsets.only(
                   top: 48,
                   bottom: 15,
@@ -60,7 +62,7 @@ class ItemPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: ItemBottomNavBar(),
+      bottomNavigationBar: const ItemBottomNavBar(),
     );
   }
 }

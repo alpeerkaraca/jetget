@@ -10,6 +10,7 @@ class ProductService {
       String description,
       double price,
       String productImg,
+      String creatorUid,
       ) async {
     CollectionReference productsCollection = _firestore.collection('Products');
 
@@ -20,7 +21,7 @@ class ProductService {
         'desc': description,
         'price': price,
         'productImg': productImg,
-        // Add any additional fields you want to store
+        'creatorUid': creatorUid,
       });
     } catch (e) {
       // Handle errors, e.g., display a message to the user

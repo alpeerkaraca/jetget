@@ -1,26 +1,22 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jetget/service/auth.dart';
-import 'package:jetget/pages/login.dart';
 import 'package:jetget/widgets/HomaAppBar.dart';
-import 'package:jetget/widgets/ItemsWidget.dart';
-import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'add-product.dart';
+import 'package:jetget/widgets/ItemsWidget.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: [
-          HomeAppBar(),
+          const HomeAppBar(),
           Container(
             //temporary height
-            padding: EdgeInsets.only(top: 15),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.only(top: 15),
+            decoration: const BoxDecoration(
               color: Color(0xFFEDECF2),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(35),
@@ -30,8 +26,8 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 15),
-                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   height: 50,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -39,11 +35,11 @@ class HomePage extends StatelessWidget {
                   ),
                   child: Row(children: [
                     Container(
-                      margin: EdgeInsets.only(left: 5),
+                      margin: const EdgeInsets.only(left: 5),
                       height: 50,
                       width: 300,
                       child: TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: "Search here...",
                         ),
@@ -51,11 +47,13 @@ class HomePage extends StatelessWidget {
                     ),
                   ]),
                 ),
+
                 Container(
                   alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  child: Text(
-                    "Products",
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  child: const Text(
+                    "Ürünler",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -77,13 +75,13 @@ class HomePage extends StatelessWidget {
           if (index == 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProductAddPage()),
+              MaterialPageRoute(builder: (context) => const ProductAddPage()),
             );
           }
         },
         height: 70,
-        color: Color(0xFF4C53A5),
-        items: [
+        color: const Color(0xFF4C53A5),
+        items: const [
           Icon(Icons.add, size: 30, color: Colors.white),
           Icon(
             Icons.home,

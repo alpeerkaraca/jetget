@@ -1,15 +1,24 @@
-import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ItemsWidget extends StatelessWidget {
+  const ItemsWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: FirebaseFirestore.instance.collection('Products').get(),
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('Products').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Veri yüklenene kadar loading göster
+          return const Center(
+            child: Column(
+              children: [
+                CircularProgressIndicator(),
+                Text('Yükleniyor...'),
+              ],
+            ),
+          ); // Veri yüklenene kadar loading göster
         }
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
@@ -20,31 +29,34 @@ class ItemsWidget extends StatelessWidget {
 
         return GridView.count(
           childAspectRatio: 0.68,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           crossAxisCount: 2,
           shrinkWrap: true,
           children: [
             for (var product in products)
-              Container(
-                padding: EdgeInsets.only(left: 15, right: 15, top: 10),
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              IntrinsicHeight(
+                  child: Container(
+                //Ana Container
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.white70,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
                   children: [
                     InkWell(
                       onTap: () {
-                        // Örnek olarak tıklandığında bir sayfaya yönlendirme yapabilirsiniz.
                         Navigator.pushNamed(context, "itemPage");
                       },
                       child: Container(
-                        margin: EdgeInsets.all(10),
-                        child: Image.file(
-                          File(product['productImg']), // Firestore'dan çektiğiniz dosya yolu
-                          height: 120,
-                          width: 120,
+                        padding: const EdgeInsets.all(10),
+                        child: Image.network(
+                          product['productImg'],
+                          height: 128,
+                          width: 128,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
@@ -61,28 +73,78 @@ class ItemsWidget extends StatelessWidget {
                       ),
                     ),
                     Container(
+                      padding: const EdgeInsets.only(bottom: 8),
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        product['desc'],
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Color(0XFF4C53A5),
-                        ),
+                      child: FutureBuilder<DocumentSnapshot>(
+                        future: FirebaseFirestore.instance
+                            .collection('Users')
+                            .doc(product['creatorUid'])
+                            .get(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<DocumentSnapshot> userSnapshot) {
+                          if (userSnapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (userSnapshot.hasError) {
+                              return Text(
+                                  "Kullanıcı adı alınamadı. Hata: ${userSnapshot.error}");
+                            }
+
+                            if (userSnapshot.hasData) {
+                              var userName = userSnapshot.data!.get('userName');
+
+                              // Alınan kullanıcı adını kullanarak TextSpan oluştur
+                              return Text.rich(TextSpan(children: [
+                                WidgetSpan(
+                                    child: Icon(Icons.person,
+                                        size: 16, color: Colors.black)),
+                                TextSpan(
+                                    text: " $userName",
+                                    style: const TextStyle(
+                                        fontSize: 16, color: Colors.black)),
+                              ]));
+                            } else {
+                              return Text("");
+                            }
+                          } else {
+                            return Text("Kullanıcı adı alınıyor...");
+                          }
+                        },
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.only(bottom: 4),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${product['price']}'),
-                          Icon(Icons.shopping_cart_checkout),
+                          Text('${product['price']} ₺'),
                         ],
                       ),
                     ),
+                    Expanded(
+                        child: ElevatedButton.icon(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                "${product['productName']} isimli tedariğe başvuruldu. (Not implemented Yet)")));
+                      },
+                      icon: const Icon(Icons.add_box_rounded,
+                          size: 16, color: Colors.white),
+                      label: const Text("Başvur",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(125, 100),
+                        backgroundColor: const Color(0XFF4C53A5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ))
                   ],
                 ),
-              )
+              )),
           ],
         );
       },

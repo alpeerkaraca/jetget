@@ -1,12 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:jetget/palette.dart';
 import 'enums.dart';
 
-
 class ProductFormWidget extends StatefulWidget {
-
   final TextEditingController productNameController;
   final TextEditingController categoryController;
   final TextEditingController descriptionController;
@@ -15,7 +12,7 @@ class ProductFormWidget extends StatefulWidget {
   final Function getImage;
   final Function submitForm;
 
-  ProductFormWidget({
+  const ProductFormWidget({super.key, 
     required this.productNameController,
     required this.categoryController,
     required this.descriptionController,
@@ -32,11 +29,9 @@ class ProductFormWidget extends StatefulWidget {
 class _ProductFormWidgetState extends State<ProductFormWidget> {
   final ColorPalette _colorPalette = ColorPalette();
 
-
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -52,22 +47,22 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildFormField(
-              label: 'Product Name',
+              label: 'Ürün İsmi',
               controller: widget.productNameController,
             ),
             _buildFormField(
-              label: 'Category',
+              label: 'Sektör',
               controller: widget.categoryController,
             ),
             _buildFormField(
-              label: 'Description',
+              label: 'Açıklama',
               controller: widget.descriptionController,
               maxLines: 3,
             ),
             _buildPriceField(),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildImagePicker(),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             _buildSubmitButton(),
           ],
         ),
@@ -84,7 +79,7 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -105,14 +100,14 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
           child: TextFormField(
             controller: widget.priceController,
             decoration: InputDecoration(
-              labelText: 'Price',
-              labelStyle: TextStyle(
+              labelText: 'Fiyat',
+              labelStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
               suffixIcon: Container(
-                margin: EdgeInsets.only(right: 12.0),
-                padding: EdgeInsets.all(12.0),
-                child: Text(
+                margin: const EdgeInsets.only(right: 12.0),
+                padding: const EdgeInsets.all(12.0),
+                child: const Text(
                   '₺',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -121,7 +116,7 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
                 ),
               ),
             ),
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'This field is required';
@@ -134,12 +129,6 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
     );
   }
 
-
-
-
-
-
-
   Widget _buildImagePicker() {
     return GestureDetector(
       onTap: () => widget.getImage(),
@@ -151,21 +140,21 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
         ),
         child: widget.image != null
             ? ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.file(
-            widget.image!,
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.cover,
-          ),
-        )
-            : Center(
-          child: Icon(
-            Icons.camera_alt,
-            color: Colors.grey,
-            size: 48,
-          ),
-        ),
+                borderRadius: BorderRadius.circular(10),
+                child: Image.file(
+                  widget.image!,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              )
+            : const Center(
+                child: Icon(
+                  Icons.camera_alt,
+                  color: Colors.grey,
+                  size: 48,
+                ),
+              ),
       ),
     );
   }
@@ -174,10 +163,11 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
     return ElevatedButton(
       onPressed: () => widget.submitForm(),
       style: ElevatedButton.styleFrom(
-          backgroundColor: _colorPalette.darkAqua // Buradaki renk istediğiniz renge değiştirilebilir
-      ),
-      child: Text(
-        'Add Product',
+          backgroundColor: _colorPalette
+              .darkAqua // Buradaki renk istediğiniz renge değiştirilebilir
+          ),
+      child: const Text(
+        'Ürün Ekle',
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -196,6 +186,4 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
         return '€';
     }
   }
-
-
 }
