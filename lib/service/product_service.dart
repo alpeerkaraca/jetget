@@ -4,6 +4,17 @@ import 'package:jetget/widgets/enums.dart';
 
 class ProductService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  Future<List<QueryDocumentSnapshot>> getProducts() async {
+    try {
+      QuerySnapshot querySnapshot =
+      await _firestore.collection('Products').get();
+
+      return querySnapshot.docs;
+    } catch (e) {
+      print('Error getting products: $e');
+      throw Exception('Error getting products: $e');
+    }
+  }
   Future<void> addProduct(
       String productName,
       String category,

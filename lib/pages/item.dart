@@ -2,22 +2,36 @@ import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/material.dart';
 import 'package:jetget/widgets/ItemAppBar.dart';
 import 'package:jetget/widgets/ItemBottomNavBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jetget/palette.dart';
 
 class ItemPage extends StatelessWidget {
-  const ItemPage({super.key});
+  final QueryDocumentSnapshot product;
+
+  const ItemPage({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (product == null) {
+      return Scaffold(
+        body: Center(
+          child: Text("Hata: Ürün bilgisi alınamadı."),
+        ),
+      );
+    }
+    final ColorPalette _colorPalette = ColorPalette();
     return Scaffold(
-      backgroundColor: const Color(0xFFEDECF2),
+      backgroundColor: _colorPalette.black.withOpacity(.2),
       body: ListView(
         children: [
           const ItemAppBar(),
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Image.asset(
-              "assets/images/ayakkabi.png",
+            child: Image.network(
+              product['productImg'],
               height: 300,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
           ),
           Arc(
@@ -26,33 +40,36 @@ class ItemPage extends StatelessWidget {
             height: 30,
             child: Container(
               width: double.infinity,
-              color: Colors.white,
-              child: const Padding(
-                padding: EdgeInsets.only(
+              color: _colorPalette.black.withOpacity(.4),
+              child: Padding(
+                padding: const EdgeInsets.only(
                   top: 48,
                   bottom: 15,
+                  left: 16,
+                  right: 16,
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment
+                      .start, // Ürün adını ve açıklamayı sola hizala
                   children: [
                     Row(
                       children: [
                         Text(
-                          "Product",
+                          product['productName'],
                           style: TextStyle(
                             fontSize: 28,
-                            color: Color(0xFF4C53A5),
+                            color: Colors.white70,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Text(
-                        "...",
+                        product['desc'],
                         textAlign: TextAlign.justify,
-                        style:
-                            TextStyle(fontSize: 17, color: Color(0xFF4C53A5)),
+                        style: TextStyle(fontSize: 17, color: Colors.white70),
                       ),
                     ),
                   ],
@@ -62,7 +79,7 @@ class ItemPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const ItemBottomNavBar(),
+      bottomNavigationBar: ItemBottomNavBar(product: product),
     );
   }
 }

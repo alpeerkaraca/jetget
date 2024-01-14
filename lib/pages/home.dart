@@ -4,22 +4,26 @@ import 'package:jetget/pages/acccount_detail.dart';
 import 'package:jetget/widgets/HomaAppBar.dart';
 import 'package:jetget/widgets/ItemsWidget.dart';
 import 'add-product.dart';
-import 'package:jetget/widgets/ItemsWidget.dart';
+import 'package:jetget/palette.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ColorPalette _colorPalette = ColorPalette();
+
     return Scaffold(
+
       body: ListView(
         children: [
           const HomeAppBar(),
           Container(
             //temporary height
             padding: const EdgeInsets.only(top: 15),
-            decoration: const BoxDecoration(
-              color: Color(0xFFEDECF2),
+            decoration:  BoxDecoration(
+              color: _colorPalette.black.withOpacity(0.9),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(35),
                 topRight: Radius.circular(35),
@@ -59,7 +63,7 @@ class HomePage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF4C53A5),
+                      color: Colors.white70,
                     ),
                   ),
                 ),
@@ -87,18 +91,18 @@ class HomePage extends StatelessWidget {
           }
         },
         height: 70,
-        color: const Color(0xFF4C53A5),
+        color:  Colors.black.withOpacity(0.9),
         items: const [
-          Icon(Icons.add, size: 30, color: Colors.white),
+          Icon(Icons.add, size: 30, color: Colors.white70),
           Icon(
             Icons.home,
             size: 30,
-            color: Colors.white,
+            color: Colors.white70,
           ),
           Icon(
             Icons.person,
             size: 30,
-            color: Colors.white,
+            color: Colors.white70,
           ),
         ],
       ),

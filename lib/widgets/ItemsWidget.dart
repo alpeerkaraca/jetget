@@ -1,12 +1,15 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import "../pages/item.dart";
+import 'package:jetget/palette.dart';
 
 class ItemsWidget extends StatelessWidget {
   const ItemsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ColorPalette _colorPalette = ColorPalette();
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('Products').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -18,13 +21,12 @@ class ItemsWidget extends StatelessWidget {
                 Text('Yükleniyor...'),
               ],
             ),
-          ); // Veri yüklenene kadar loading göster
+          );
         }
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
 
-        // Verileri çektiğimiz alan
         List<QueryDocumentSnapshot> products = snapshot.data!.docs;
 
         return GridView.count(
@@ -34,21 +36,24 @@ class ItemsWidget extends StatelessWidget {
           shrinkWrap: true,
           children: [
             for (var product in products)
-              IntrinsicHeight(
-                  child: Container(
+              Container(
                 //Ana Container
                 padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                 decoration: BoxDecoration(
-                  color: Colors.white70,
+                  color: _colorPalette.black.withOpacity(0.7),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, "itemPage");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ItemPage(product: product),
+                          ),
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.all(10),
@@ -65,9 +70,9 @@ class ItemsWidget extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         product['productName'],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 18,
-                          color: Color(0XFF4C53A5),
+                          color: Colors.white70,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -92,15 +97,14 @@ class ItemsWidget extends StatelessWidget {
                             if (userSnapshot.hasData) {
                               var userName = userSnapshot.data!.get('userName');
 
-                              // Alınan kullanıcı adını kullanarak TextSpan oluştur
                               return Text.rich(TextSpan(children: [
                                 WidgetSpan(
                                     child: Icon(Icons.person,
-                                        size: 16, color: Colors.black)),
+                                        size: 16, color: Colors.white70)),
                                 TextSpan(
                                     text: " $userName",
                                     style: const TextStyle(
-                                        fontSize: 16, color: Colors.black)),
+                                        fontSize: 16, color: Colors.white70)),
                               ]));
                             } else {
                               return Text("");
@@ -116,51 +120,40 @@ class ItemsWidget extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${product['price']} ₺'),
+                          Text('${product['price']} ₺',
+                              style: TextStyle(color: Colors.white70)),
                         ],
                       ),
                     ),
                     Expanded(
-                        child: ElevatedButton.icon(
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                "${product['productName']} isimli tedariğe başvuruldu. (Not implemented Yet)")));
-                      },
-                      icon: const Icon(Icons.add_box_rounded,
-                          size: 16, color: Colors.white),
-                      label: const Text("Başvur",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(125, 100),
-                        backgroundColor: const Color(0XFF4C53A5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  "${product['productName']} isimli tedariğe başvuruldu. (Not implemented Yet)")));
+                        },
+                        icon: const Icon(Icons.add_box_rounded,
+                            size: 16, color: Colors.white),
+                        label: const Text("Başvur",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: const Size(125, 100),
+                          backgroundColor: Colors.black.withOpacity(0.4),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
                       ),
-                    ))
+                    ),
                   ],
                 ),
-              )),
+              ),
           ],
         );
       },
     );
-  }
-
-  String _getCurrencySymbol(String currency) {
-    switch (currency) {
-      case 'USD':
-        return '\$';
-      case 'TRY':
-        return '₺';
-      case 'EUR':
-        return '€';
-      default:
-        return ''; // Hata durumunda boş dize döndür
-    }
   }
 }

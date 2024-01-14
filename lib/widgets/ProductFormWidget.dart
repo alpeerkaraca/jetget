@@ -165,7 +165,7 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
       onPressed: () => widget.submitForm(),
       style: ElevatedButton.styleFrom(
           backgroundColor: _colorPalette
-              .darkAqua // Buradaki renk istediğiniz renge değiştirilebilir
+              .darkAqua
           ),
       child: const Text(
         'Ürün Ekle',
@@ -177,14 +177,4 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
     );
   }
 
-  String _getCurrencySymbol(Currency currency) {
-    switch (currency) {
-      case Currency.USD:
-        return '\$';
-      case Currency.TRY:
-        return '₺';
-      case Currency.EUR:
-        return '€';
-    }
-  }
 }

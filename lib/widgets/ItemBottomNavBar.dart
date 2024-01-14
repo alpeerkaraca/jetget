@@ -1,43 +1,69 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jetget/palette.dart';
 
 class ItemBottomNavBar extends StatelessWidget {
-  const ItemBottomNavBar({super.key});
+  final QueryDocumentSnapshot product;
+
+  const ItemBottomNavBar({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ColorPalette _colorPalette = ColorPalette();
     return BottomAppBar(
+      color: Colors.black,
       child: Container(
         height: 70,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 3,
-                blurRadius: 10,
-                offset: const Offset(0, 3),
-              )
-            ]),
+          color: _colorPalette.black.withOpacity(.4),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.9),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            )
+          ],
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              "\$55",
-              style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF4C53A5)),
+            Text(
+              '${product['price']} ₺',
+              style: const TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Colors.white70,
+              ),
             ),
             ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(CupertinoIcons.cart_badge_plus),
-                label: const Text(
-                  "Add to Cart",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                )),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    "${product['productName']} isimli ürüne başvuruldu. (Not implemented Yet)",
+                  ),
+                ));
+              },
+              icon: Theme(
+                data: ThemeData(
+                    iconTheme: IconThemeData(color: _colorPalette.darkAqua)),
+                child: const Icon(Icons.add_box_rounded),
+              ),
+              label: Text(
+                "Başvur",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white70),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: _colorPalette.black
+                    .withOpacity(0.9), // Arka plan rengi siyah
+              ),
+            ),
           ],
         ),
       ),
