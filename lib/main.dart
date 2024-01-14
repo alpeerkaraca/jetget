@@ -7,6 +7,7 @@ import 'package:jetget/pages/item.dart';
 import 'package:jetget/pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'service/product_service.dart';
+import 'package:jetget/pages/notifications.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
           return Container();
         },
         "homePage": (context) => HomePage(),
+        "notifications": (context) => NotificationsPage(),
       },
     );
   }

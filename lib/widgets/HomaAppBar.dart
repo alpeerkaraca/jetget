@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jetget/palette.dart';
-
+import 'package:jetget/pages/notifications.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({super.key});
@@ -9,10 +9,9 @@ class HomeAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorPalette _colorPalette = ColorPalette();
     return Container(
-      color: Colors.black.withOpacity(0.9),
+      color: _colorPalette.black.withOpacity(0.9),
       padding: const EdgeInsets.all(25),
       child: Row(
-
         children: [
           const Icon(
             Icons.sort,
@@ -36,12 +35,17 @@ class HomeAppBar extends StatelessWidget {
             padding: const EdgeInsets.all(7),
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, "cartPage");
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NotificationsPage(),
+                  ),
+                );
               },
               child: Icon(
-                Icons.shopping_bag_outlined,
+                Icons.notifications,
                 size: 32,
-
+                color: Colors.white70,
               ),
             ),
           ),

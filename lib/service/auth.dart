@@ -26,6 +26,17 @@ class AuthService {
       "basvuru": 0,
       "tedarik": 0,
     });
+
+    await _firestore.collection("Users").doc(user.user!.uid).collection("Notifications").add({
+      "title": "Hoşgeldin!",
+      "content": "JetGet'e hoşgeldin! Profilini düzenleyerek işlem yapmaya başlayabilirsin.",
+      "date": DateTime.now(),
+      "sender": "JetGet",
+      "senderProfileImageURL": "https://firebasestorage.googleapis.com/v0/b/jetget-dc76f.appspot.com/o/logo.png?alt=media&token=a1fb351a-9445-4233-a211-e1ec354616bc",
+      "senderName": "JetGet",
+      "productID": "JetGet",
+      "productName": "JetGet",
+    });
     return user.user!;
   }
 }

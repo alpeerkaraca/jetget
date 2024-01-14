@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jetget/pages/edit_profile.dart';
 import 'package:jetget/palette.dart';
+import 'package:jetget/pages/edit_product_details.dart';
+import 'package:jetget/widgets/MyProducts.dart';
 
 class AccountDetails extends StatefulWidget {
   const AccountDetails({super.key});
@@ -75,7 +77,8 @@ class _AccountDetailsState extends State<AccountDetails> {
                 const SizedBox(height: 20),
                 profileStatistics(userData),
                 const SizedBox(height: 40),
-                //buildProducts(userData),
+                MyProducts(),
+
               ]);
         },
       ),
@@ -129,8 +132,8 @@ class _AccountDetailsState extends State<AccountDetails> {
         child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        buildStatistic("Ürün", (userData?['urun']).toString()),
-        const SizedBox(height: 24, child: VerticalDivider()),
+        buildStatistic("Ürün", userData['urun'].toString()),
+        SizedBox(height: 24, child: VerticalDivider()),
         buildStatistic("Tedarik", userData?['tedarik'].toString()),
         SizedBox(height: 24, child: Container(child: const VerticalDivider())),
         buildStatistic("Başvuru", userData?['basvuru'].toString()),
@@ -138,29 +141,29 @@ class _AccountDetailsState extends State<AccountDetails> {
     ));
   }
 
-  Widget buildStatistic(String title, String? info) {
-    return MaterialButton(
-      onPressed: () {},
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
-          ),
-          Text(
-            info!,
-            style: const TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
-          ),
-        ],
-      ),
-    );
-  }
 
-  buildProducts(DocumentSnapshot<Map<String, dynamic>>? userData) {}
+}
+
+Widget buildStatistic(String title, String? info) {
+  return MaterialButton(
+    onPressed: () {},
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
+        ),
+        Text(
+          info!,
+          style: const TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+        ),
+      ],
+    ),
+  );
 }
 
 Widget buildCircle({

@@ -1,11 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "../pages/item.dart";
 import 'package:jetget/palette.dart';
+import 'package:jetget/service/notification_service.dart';
 
-class ItemsWidget extends StatelessWidget {
-  const ItemsWidget({super.key});
+
+
+class ItemsWidget extends StatefulWidget {
+  const ItemsWidget({Key? key}) : super(key: key);
+
+  @override
+  State<ItemsWidget> createState() => _ItemsWidgetState();
+}
+
+class _ItemsWidgetState extends State<ItemsWidget>{
+  late var userSnapshotGlobal;
+
+
+
+  final NotificationService _notificationService = NotificationService();
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +87,7 @@ class ItemsWidget extends StatelessWidget {
                         product['productName'],
                         style: TextStyle(
                           fontSize: 18,
+                          overflow: TextOverflow.ellipsis,
                           color: Colors.white70,
                           fontWeight: FontWeight.bold,
                         ),
@@ -91,11 +107,13 @@ class ItemsWidget extends StatelessWidget {
                               ConnectionState.done) {
                             if (userSnapshot.hasError) {
                               return Text(
-                                  "Kullanıcı adı alınamadı. Hata: ${userSnapshot.error}");
+                                  "Kullanıcı adı alınamadı. Hata: ${userSnapshot
+                                      .error}");
                             }
 
                             if (userSnapshot.hasData) {
                               var userName = userSnapshot.data!.get('userName');
+                              userSnapshotGlobal = userSnapshot.data!.data();
 
                               return Text.rich(TextSpan(children: [
                                 WidgetSpan(
@@ -128,9 +146,17 @@ class ItemsWidget extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  "${product['productName']} isimli tedariğe başvuruldu. (Not implemented Yet)")));
+                          print("Başvuru gönderildi: ÜrünAdı: ${product['productName']}, ÜrünID: ${product.id}, Ürün Sahibi: ${product['creatorUid']}, Başvuran: ${FirebaseAuth.instance.currentUser!.uid}, BaşvuranAdı: ${userSnapshotGlobal.data!.get('userName')}");
+                          _notificationService.sendNotificationToUser(
+                              "Başvuru",
+                              "@${userSnapshotGlobal.data!.get('userName')}, ${product['productName']} isimli tedariğe başvurdu.",
+                              product['creatorUid'],
+                              FirebaseAuth.instance.currentUser!.uid,
+                              userSnapshotGlobal.data!.get('profilePhotoUrl'),
+                              userSnapshotGlobal.data!.get('userName'),
+                              product.id,
+                              product['productName'],
+                              context);
                         },
                         icon: const Icon(Icons.add_box_rounded,
                             size: 16, color: Colors.white),
@@ -156,4 +182,6 @@ class ItemsWidget extends StatelessWidget {
       },
     );
   }
+
+
 }

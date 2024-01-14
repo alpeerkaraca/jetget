@@ -15,12 +15,11 @@ class HomePage extends StatelessWidget {
     final ColorPalette _colorPalette = ColorPalette();
 
     return Scaffold(
-
       body: ListView(
         children: [
           const HomeAppBar(),
           Container(
-            //temporary height
+
             padding: const EdgeInsets.only(top: 15),
             decoration:  BoxDecoration(
               color: _colorPalette.black.withOpacity(0.9),
@@ -68,7 +67,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 //Items Widget
-                const ItemsWidget(),
+                 ItemsWidget(),
               ],
             ),
           ),

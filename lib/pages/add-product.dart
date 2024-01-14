@@ -58,8 +58,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
     if (productName.isEmpty ||
         category.isEmpty ||
         description.isEmpty ||
-        price == 0.0 ||
-        productImg.isEmpty) {
+        price == 0.0) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Lütfen tüm alanları doldurunuz.'),

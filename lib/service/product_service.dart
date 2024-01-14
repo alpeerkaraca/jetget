@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jetget/widgets/enums.dart';
 
-
 class ProductService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Future<List<QueryDocumentSnapshot>> getProducts() async {
     try {
       QuerySnapshot querySnapshot =
-      await _firestore.collection('Products').get();
+          await _firestore.collection('Products').get();
 
       return querySnapshot.docs;
     } catch (e) {
@@ -15,14 +14,15 @@ class ProductService {
       throw Exception('Error getting products: $e');
     }
   }
+
   Future<void> addProduct(
-      String productName,
-      String category,
-      String description,
-      double price,
-      String productImg,
-      String creatorUid,
-      ) async {
+    String productName,
+    String category,
+    String description,
+    double price,
+    String productImg,
+    String creatorUid,
+  ) async {
     CollectionReference productsCollection = _firestore.collection('Products');
 
     try {
@@ -31,26 +31,14 @@ class ProductService {
         'category': category,
         'desc': description,
         'price': price,
-        'productImg': productImg,
+        'productImg': productImg ??
+            'https://firebasestorage.googleapis.com/v0/b/jetget-dc76f.appspot.com/o/ProductImages%2Fyok.png?alt=media&token=eeb62242-9308-40dc-8aab-4e109fc23564',
         'creatorUid': creatorUid,
       });
     } catch (e) {
       // Handle errors, e.g., display a message to the user
       print('Error adding product: $e');
       throw Exception('Error adding product: $e');
-    }
-  }
-
-  String _getCurrencySymbol(Currency currency) {
-    switch (currency) {
-      case Currency.USD:
-        return '\$';
-      case Currency.TRY:
-        return '₺';
-      case Currency.EUR:
-        return '€';
-      default:
-        return '';
     }
   }
 }
