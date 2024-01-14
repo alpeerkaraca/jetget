@@ -6,22 +6,17 @@ import "../pages/item.dart";
 import 'package:jetget/palette.dart';
 import 'package:jetget/service/notification_service.dart';
 
-
-
 class ItemsWidget extends StatefulWidget {
-  const ItemsWidget({Key? key}) : super(key: key);
+  ItemsWidget({Key? key}) : super(key: key);
 
   @override
   State<ItemsWidget> createState() => _ItemsWidgetState();
 }
 
-class _ItemsWidgetState extends State<ItemsWidget>{
-  late var userSnapshotGlobal;
-
-
-
+class _ItemsWidgetState extends State<ItemsWidget> {
   final NotificationService _notificationService = NotificationService();
 
+  var user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     final ColorPalette _colorPalette = ColorPalette();
@@ -45,33 +40,35 @@ class _ItemsWidgetState extends State<ItemsWidget>{
         List<QueryDocumentSnapshot> products = snapshot.data!.docs;
 
         return GridView.count(
-          childAspectRatio: 0.68,
+          childAspectRatio: 0.586,
           physics: const BouncingScrollPhysics(),
           crossAxisCount: 2,
           shrinkWrap: true,
           children: [
             for (var product in products)
-              Container(
-                //Ana Container
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: _colorPalette.black.withOpacity(0.7),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ItemPage(product: product),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
+              InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ItemPage(product: product),
+                    ),
+                  );
+                },
+                child: Container(
+                  //Ana Container
+                  padding: const EdgeInsets.only(top: 15, left: 10, right: 10),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Color(0XFF2E2A40),
+                    //color: _colorPalette.black.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
                         child: Image.network(
                           product['productImg'],
                           height: 128,
@@ -79,109 +76,181 @@ class _ItemsWidgetState extends State<ItemsWidget>{
                           fit: BoxFit.cover,
                         ),
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        product['productName'],
-                        style: TextStyle(
-                          fontSize: 18,
-                          overflow: TextOverflow.ellipsis,
-                          color: Colors.white70,
-                          fontWeight: FontWeight.bold,
+                      SizedBox(
+                        width: 144,
+                        child: Divider(
+                          color: Colors.white.withOpacity(0.5),
+                          thickness: 1,
                         ),
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      alignment: Alignment.centerLeft,
-                      child: FutureBuilder<DocumentSnapshot>(
-                        future: FirebaseFirestore.instance
-                            .collection('Users')
-                            .doc(product['creatorUid'])
-                            .get(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<DocumentSnapshot> userSnapshot) {
-                          if (userSnapshot.connectionState ==
-                              ConnectionState.done) {
-                            if (userSnapshot.hasError) {
-                              return Text(
-                                  "Kullanıcı adı alınamadı. Hata: ${userSnapshot
-                                      .error}");
-                            }
-
-                            if (userSnapshot.hasData) {
-                              var userName = userSnapshot.data!.get('userName');
-                              userSnapshotGlobal = userSnapshot.data!.data();
-
-                              return Text.rich(TextSpan(children: [
-                                WidgetSpan(
-                                    child: Icon(Icons.person,
-                                        size: 16, color: Colors.white70)),
-                                TextSpan(
-                                    text: " $userName",
-                                    style: const TextStyle(
-                                        fontSize: 16, color: Colors.white70)),
-                              ]));
-                            } else {
-                              return Text("");
-                            }
-                          } else {
-                            return Text("Kullanıcı adı alınıyor...");
-                          }
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('${product['price']} ₺',
-                              style: TextStyle(color: Colors.white70)),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          print("Başvuru gönderildi: ÜrünAdı: ${product['productName']}, ÜrünID: ${product.id}, Ürün Sahibi: ${product['creatorUid']}, Başvuran: ${FirebaseAuth.instance.currentUser!.uid}, BaşvuranAdı: ${userSnapshotGlobal.data!.get('userName')}");
-                          _notificationService.sendNotificationToUser(
-                              "Başvuru",
-                              "@${userSnapshotGlobal.data!.get('userName')}, ${product['productName']} isimli tedariğe başvurdu.",
-                              product['creatorUid'],
-                              FirebaseAuth.instance.currentUser!.uid,
-                              userSnapshotGlobal.data!.get('profilePhotoUrl'),
-                              userSnapshotGlobal.data!.get('userName'),
-                              product.id,
-                              product['productName'],
-                              context);
-                        },
-                        icon: const Icon(Icons.add_box_rounded,
-                            size: 16, color: Colors.white),
-                        label: const Text("Başvur",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
-                        style: ElevatedButton.styleFrom(
-                          fixedSize: const Size(125, 100),
-                          backgroundColor: Colors.black.withOpacity(0.4),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                      Container(
+                        child: Text(
+                          product['productName'],
+                          style: TextStyle(
+                            fontSize: 18,
+                            overflow: TextOverflow.ellipsis,
+                            color: Colors.white70,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        width: 144,
+                        child: Divider(
+                          color: Colors.white.withOpacity(0.5),
+                          thickness: 1,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        alignment: Alignment.centerLeft,
+                        child: FutureBuilder<DocumentSnapshot>(
+                          future: FirebaseFirestore.instance
+                              .collection('Users')
+                              .doc(product['creatorUid'])
+                              .get(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<DocumentSnapshot> userSnapshot) {
+                            if (userSnapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (userSnapshot.hasError) {
+                                return Text(
+                                    "Kullanıcı adı alınamadı. Hata: ${userSnapshot.error}");
+                              }
+
+                              if (userSnapshot.hasData) {
+                                return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text.rich(TextSpan(children: [
+                                        WidgetSpan(
+                                            child: Icon(Icons.person,
+                                                color: Colors.white70)),
+                                        TextSpan(
+                                            text:
+                                                "${userSnapshot.data!.get('userName')}",
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                color: Colors.white70,
+                                                fontWeight: FontWeight.bold)),
+                                      ])),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 8, bottom: 8),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Icon(Icons.price_change,
+                                                color: Colors.white70,
+                                                size: 18),
+                                            Text('${product.get('price')}',
+                                                style: TextStyle(
+                                                    color: Colors.white70,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            Icon(
+                                              Icons.currency_lira,
+                                              color: Colors.white70,
+                                              size: 18,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Center(
+                                          child: Container(
+                                              height: 48,
+                                              width: 144,
+                                              child: FutureBuilder(
+                                                future: FirebaseFirestore
+                                                    .instance
+                                                    .collection('Users')
+                                                    .doc(user!.uid)
+                                                    .get(),
+                                                builder: (BuildContext context,
+                                                    AsyncSnapshot<
+                                                            DocumentSnapshot>
+                                                        snapshot) {
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.done) {
+                                                    if (snapshot.hasError) {
+                                                      return Text(
+                                                          "Kullanıcı adı alınamadı. Hata: ${snapshot.error}");
+                                                    }
+
+                                                    if (snapshot.hasData) {
+                                                      var userName = snapshot
+                                                          .data!
+                                                          .get('userName');
+                                                      return ElevatedButton
+                                                          .icon(
+                                                        onPressed: () {
+                                                          _notificationService
+                                                              .saveNotificationToDB(
+                                                            title: 'Başvuru',
+                                                            content:
+                                                                '${userName} adlı kullanıcı ${product.get('productName')} için başvuru gönderdi.',
+                                                            receiverUid:
+                                                                product.get(
+                                                                    'creatorUid'),
+                                                            senderUid:
+                                                                user!.uid,
+                                                            senderImageURL:
+                                                                snapshot.data!.get(
+                                                                    'profilePhotoUrl'),
+                                                            senderUserName:
+                                                                snapshot.data!.get(
+                                                                    'userName'),
+                                                            productID:
+                                                                product.id,
+                                                            productName:
+                                                                product.get(
+                                                                    'productName'),
+                                                            context: context,
+                                                          );
+                                                          _notificationService
+                                                              .sendNotificationToUser(
+                                                            receiverToken:
+                                                                snapshot.data!
+                                                                    .get(
+                                                                        'token'),
+                                                            title: 'Başvuru',
+                                                            content:
+                                                                '@${userName} size başvuru gönderdi.',
+                                                          );
+                                                        },
+                                                        icon: Icon(
+                                                            Icons.add_circle),
+                                                        label: Text('Başvur'),
+                                                      );
+                                                    } else {
+                                                      return Text("");
+                                                    }
+                                                  } else {
+                                                    return Text(
+                                                        "Kullanıcı adı alınıyor...");
+                                                  }
+                                                },
+                                              )))
+                                    ]);
+                              } else {
+                                return Text("");
+                              }
+                            } else {
+                              return Text("Kullanıcı adı alınıyor...");
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              )
           ],
         );
       },
     );
   }
-
-
 }

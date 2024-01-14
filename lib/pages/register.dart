@@ -24,9 +24,7 @@ class RegisterPageState extends State<RegisterPage> {
     return Scaffold(
         backgroundColor: _colorPalette.black.withOpacity(.7),
         body: Center(
-          child:
-
-          Padding(
+          child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Container(
               width: size.width * .75,
@@ -76,7 +74,7 @@ class RegisterPageState extends State<RegisterPage> {
                             labelText: "Kullanıcı Adı",
                             hintText: "example",
                             hintStyle: TextStyle(
-                              color: Colors.white.withOpacity(.75),
+                              color: Colors.white.withOpacity(.4),
                               fontFamily: "OpenSans",
                               fontSize: 14,
                             ),
@@ -101,7 +99,7 @@ class RegisterPageState extends State<RegisterPage> {
                             labelText: "E-Posta",
                             hintText: "example@example.com",
                             hintStyle: TextStyle(
-                              color: Colors.white.withOpacity(.75),
+                              color: Colors.white.withOpacity(.4),
                               fontFamily: "OpenSans",
                               fontSize: 14,
                             ),
@@ -127,7 +125,7 @@ class RegisterPageState extends State<RegisterPage> {
                             labelText: "Parola",
                             hintText: "********",
                             hintStyle: TextStyle(
-                              color: Colors.white.withOpacity(.75),
+                              color: Colors.white.withOpacity(.4),
                               fontFamily: "OpenSans",
                               fontSize: 14,
                             ),
@@ -137,19 +135,49 @@ class RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         const SizedBox(height: 10),
-
                         const SizedBox(height: 10),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                           ),
                           onPressed: () async {
+                            if (_userNameController.text.isEmpty ||
+                                _emailController.text.isEmpty ||
+                                _passwordController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                          "Lütfen tüm alanları doldurun.")));
+                              return;
+                            } else if (_userNameController.text.length > 17) {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text(
+                                      "Kullanıcı adı 17 karakterden uzun olamaz.")));
+                              return;
+                            } else if (_passwordController.text.length < 6) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                          "Parola 6 karakterden kısa olamaz.")));
+                              return;
+                            }
+
                             try {
                               await _authService
                                   .registerUser(
                                       _userNameController.text,
                                       _emailController.text,
                                       _passwordController.text)
+                                  .then((value) => {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                backgroundColor: Colors.green,
+                                                content:
+                                                    Text("Kayıt başarılı."))),
+                                      })
                                   .then((value) => {
                                         Navigator.push(
                                           context,

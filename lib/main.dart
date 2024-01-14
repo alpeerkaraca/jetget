@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:jetget/firebase_options.dart';
@@ -8,10 +9,12 @@ import 'package:jetget/pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'service/product_service.dart';
 import 'package:jetget/pages/notifications.dart';
+import 'package:jetget/service/notification_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await NotificationService().initNotification();
   runApp(const MyApp());
 }
 
@@ -44,7 +47,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        "/": (context) => const LoginPage(),
+        "/": (context) => FirebaseAuth.instance.currentUser == null ? LoginPage() : HomePage(),
         "cartPage": (context) => CartPage(),
         "itemPage": (context) {
           _navigateToItemPage(context);

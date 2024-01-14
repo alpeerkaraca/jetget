@@ -15,6 +15,7 @@ class HomePage extends StatelessWidget {
     final ColorPalette _colorPalette = ColorPalette();
 
     return Scaffold(
+      backgroundColor: _colorPalette.black,
       body: ListView(
         children: [
           const HomeAppBar(),

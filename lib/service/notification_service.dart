@@ -2,27 +2,39 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class NotificationService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-  Future<void> sendNotificationToUser(
-    String title,
-    String content,
-    String receiverUid,
-    String senderUid,
-    String senderImageURL,
-    String senderUserName,
-    String productID,
-    String productName,
-    BuildContext context,
-  ) async {
+  Future<void> initNotification() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    await _firebaseMessaging.requestPermission();
 
+    final token = await _firebaseMessaging.getToken();
+
+    FirebaseFirestore.instance.collection('Users').doc(uid).update({
+      'token': token,
+    });
+  }
+
+  Future<void> saveNotificationToDB(
+      {required String title,
+      required String content,
+      required String receiverUid,
+      required String senderUid,
+      required String senderImageURL,
+      required String senderUserName,
+      required String productID,
+      required String productName,
+      required BuildContext context}) async {
     try {
-      if(receiverUid == senderUid){
+      if (receiverUid == senderUid) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(backgroundColor: Colors.red,
+          SnackBar(
+            backgroundColor: Colors.red,
             content: Text('Kendinize başvuru gönderemezsiniz.'),
           ),
         );
@@ -48,7 +60,6 @@ class NotificationService {
           ),
         );
       });
-
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -57,4 +68,26 @@ class NotificationService {
       );
     }
   }
+
+  Future<void> sendNotificationToUser({
+    required String receiverToken,
+    required String title,
+    required String content,
+  }) async {
+    return ;
+  }
+
+
+
+
+
+
+ Future<void> handleBackgroundMessage(RemoteMessage message) async {
+    print('Title: ${message.notification!.title}');
+    print('Body: ${message.notification!.body}');
+    print('Payload: ${message.data}');
+  }
+
+
+
 }

@@ -115,6 +115,18 @@ class LoginPageState extends State<LoginPage> {
                             backgroundColor: Colors.white.withOpacity(.8),
                           ),
                           onPressed: () async {
+                            if(_emailController.text.isEmpty || _passwordController.text.isEmpty){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text(
+                                      "Lütfen E-Posta Adresi ve Parola Girin"),
+                                ),
+                              );
+                              return;
+                            }
+
+
                             try {
                               await _authService
                                   .signIn(_emailController.text,
