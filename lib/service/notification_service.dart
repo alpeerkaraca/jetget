@@ -10,14 +10,10 @@ class NotificationService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   Future<void> initNotification() async {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
     await _firebaseMessaging.requestPermission();
 
     final token = await _firebaseMessaging.getToken();
-
-    FirebaseFirestore.instance.collection('Users').doc(uid).update({
-      'token': token,
-    });
+    print('Token: $token');
   }
 
   Future<void> saveNotificationToDB(

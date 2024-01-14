@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        "/": (context) => FirebaseAuth.instance.currentUser == null ? LoginPage() : HomePage(),
+        "/": (context) => LoginPage(),
         "cartPage": (context) => CartPage(),
         "itemPage": (context) {
           _navigateToItemPage(context);

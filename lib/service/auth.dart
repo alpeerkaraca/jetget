@@ -1,12 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   Future<User> signIn(String email, String password) async {
+    await _firebaseMessaging.requestPermission();
     var user = await _auth.signInWithEmailAndPassword(email: email, password: password);
+    await _firestore.collection("Users").doc(user.user!.uid).update({
+      'token': await _firebaseMessaging.getToken(),
+    }).then((value) => print("Token güncellendi"));
+    print("Token: ${await _firebaseMessaging.getToken()}");
     return user.user!;
   }
 
