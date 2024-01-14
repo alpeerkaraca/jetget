@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:jetget/palette.dart';
+
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ColorPalette _colorPalette = ColorPalette();
     return Container(
-      color: Colors.white,
+      color: Colors.black.withOpacity(0.9),
       padding: const EdgeInsets.all(25),
       child: Row(
+
         children: [
           const Icon(
             Icons.sort,
             size: 30,
-            color: Color(0xFF4C53A5),
+            color: Colors.white70,
           ),
           const Padding(
             padding: EdgeInsets.only(left: 20),
@@ -22,7 +26,7 @@ class HomeAppBar extends StatelessWidget {
               style: TextStyle(
                 fontSize: 23,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF4C53A5),
+                color: Colors.white70,
               ),
             ),
           ),
@@ -34,9 +38,10 @@ class HomeAppBar extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(context, "cartPage");
               },
-              child: const Icon(
+              child: Icon(
                 Icons.shopping_bag_outlined,
                 size: 32,
+
               ),
             ),
           ),
