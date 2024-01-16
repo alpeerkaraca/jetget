@@ -5,6 +5,8 @@ import 'package:jetget/widgets/HomaAppBar.dart';
 import 'package:jetget/widgets/ItemsWidget.dart';
 import 'add_product.dart';
 import 'package:jetget/palette.dart';
+import 'package:jetget/service//product_service.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,6 +17,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ColorPalette colorPalette = ColorPalette();
+  final ProductService productService = ProductService();
+  String selectedCategory = '';
 
   @override
   Widget build(BuildContext context) {
@@ -24,56 +28,48 @@ class _HomePageState extends State<HomePage> {
         children: [
           const HomeAppBar(),
           Container(
-            padding: const EdgeInsets.only(top: 15),
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            height: 50,
             decoration: BoxDecoration(
-              color: colorPalette.black.withOpacity(0.9),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(35),
-                topRight: Radius.circular(35),
-              ),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(30),
             ),
-            child: Column(
+            child: Row(
               children: [
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  margin: const EdgeInsets.only(left: 5),
                   height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Row(children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 5),
-                      height: 50,
-                      width: 300,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Aradığınız ürünü bulun...",
-                        ),
-                      ),
-                    ),
-                  ]),
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin:
-                  const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  child: const Text(
-                    "Ürünler",
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white70,
+                  width: 300,
+                  child: TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        selectedCategory = value;
+                      });
+                    },
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Aradığınız ürünü bulun...",
                     ),
                   ),
                 ),
-                // Items Widget
-                const ItemsWidget(),
               ],
             ),
           ),
+          Container(
+            alignment: Alignment.centerLeft,
+            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: const Text(
+              "Ürünler",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Colors.white70,
+              ),
+            ),
+          ),
+          // Items Widget
+          ItemsWidget(selectedCategory: selectedCategory),
         ],
       ),
       bottomNavigationBar: CurvedNavigationBar(

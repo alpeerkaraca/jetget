@@ -6,13 +6,16 @@ import 'package:jetget/palette.dart';
 import 'package:jetget/service/notification_service.dart';
 
 class ItemsWidget extends StatefulWidget {
-  const ItemsWidget({super.key});
+  const ItemsWidget({Key? key, required this.selectedCategory}) : super(key: key);
+
+  final String selectedCategory;
 
   @override
   State<ItemsWidget> createState() => _ItemsWidgetState();
 }
 
 class _ItemsWidgetState extends State<ItemsWidget> {
+
   final NotificationService _notificationService = NotificationService();
 
   var user = FirebaseAuth.instance.currentUser;
@@ -33,10 +36,17 @@ class _ItemsWidgetState extends State<ItemsWidget> {
           );
         }
         if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text('Hata: ${snapshot.error}');
         }
 
         List<QueryDocumentSnapshot> products = snapshot.data!.docs;
+        
+        if (widget.selectedCategory.isNotEmpty) {
+          products = products
+              .where((product) =>
+          product['category'].toLowerCase() == widget.selectedCategory.toLowerCase())
+              .toList();
+        }
 
         return GridView.count(
           childAspectRatio: 0.586,
