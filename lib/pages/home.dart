@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:jetget/pages/acccount_detail.dart';
-import 'package:jetget/widgets/HomaAppBar.dart';
+import 'package:jetget/widgets/HomeAppBar.dart';
 import 'package:jetget/widgets/ItemsWidget.dart';
 import 'add_product.dart';
 import 'package:jetget/palette.dart';
