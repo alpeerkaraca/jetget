@@ -59,8 +59,7 @@ class ItemBottomNavBar extends StatelessWidget {
                     color: Colors.white70),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: colorPalette.black
-                    .withOpacity(0.9), // Arka plan rengi siyah
+                backgroundColor: colorPalette.black.withOpacity(0.9),
               ),
             ),
           ],

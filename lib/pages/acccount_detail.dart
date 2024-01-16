@@ -24,7 +24,6 @@ class _AccountDetailsState extends State<AccountDetails> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +40,7 @@ class _AccountDetailsState extends State<AccountDetails> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('Users')
-            .doc(_auth.currentUser!.uid) // Aktif kullanıcının UID'si
+            .doc(_auth.currentUser!.uid)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -53,7 +52,6 @@ class _AccountDetailsState extends State<AccountDetails> {
                 ],
               ),
             );
-
           }
 
           var userData = snapshot.data;
@@ -75,8 +73,10 @@ class _AccountDetailsState extends State<AccountDetails> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 12),
                       ),
-                      onPressed: () {_auth.signOut();
-                        Navigator.popUntil(context, (route) => route.isFirst);},
+                      onPressed: () {
+                        _auth.signOut();
+                        Navigator.popUntil(context, (route) => route.isFirst);
+                      },
                       child: const Text(
                         'Çıkış Yap',
                         style: TextStyle(color: Colors.white, fontSize: 20),
@@ -86,14 +86,10 @@ class _AccountDetailsState extends State<AccountDetails> {
                 profileStatistics(userData),
                 const SizedBox(height: 40),
                 const MyProducts(),
-
               ]);
         },
       ),
     );
-
-
-
   }
 
   profilePicture({String? image}) {
@@ -144,15 +140,13 @@ class _AccountDetailsState extends State<AccountDetails> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         buildStatistic("Ürün", totalProduct.toString()),
-         SizedBox(height: 24, child: VerticalDivider()),
+        SizedBox(height: 24, child: VerticalDivider()),
         buildStatistic("Tedarik", totalProduct.toString()),
         SizedBox(height: 24, child: Container(child: const VerticalDivider())),
         buildStatistic("Başvuru", userData?['basvuru'].toString()),
       ],
     ));
   }
-
-
 }
 
 Widget buildStatistic(String title, String? info) {
@@ -197,23 +191,20 @@ getTotalProductCountCreatedByThisUser() async {
   final _querySnapshot = await _firestore
       .collection('Products')
       .where('creatorUid', isEqualTo: _userUid)
-      .get().then((value) => productNum = value.docs.length);
+      .get()
+      .then((value) => productNum = value.docs.length);
   return productNum;
 }
 
-
-
-  Widget buildUserInformations(userData) {
-    return Column(
-      children: [
-        Text(userData?['userName'] ?? ' ',
-            style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.white)),
-        Text(userData?['email'] ?? ' ',
-            style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey)),
-      ],
-    );
-  }
+Widget buildUserInformations(userData) {
+  return Column(
+    children: [
+      Text(userData?['userName'] ?? ' ',
+          style: const TextStyle(
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+      Text(userData?['email'] ?? ' ',
+          style: const TextStyle(
+              fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey)),
+    ],
+  );
+}

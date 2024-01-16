@@ -15,8 +15,7 @@ class ItemPage extends StatelessWidget {
     final ColorPalette colorPalette = ColorPalette();
     return Scaffold(
       backgroundColor: colorPalette.black.withOpacity(.2),
-      body:
-      ListView(
+      body: ListView(
         children: [
           const ItemAppBar(),
           Padding(
@@ -43,8 +42,7 @@ class ItemPage extends StatelessWidget {
                   right: 16,
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment
-                      .start, // Ürün adını ve açıklamayı sola hizala
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
@@ -63,7 +61,8 @@ class ItemPage extends StatelessWidget {
                       child: Text(
                         product['desc'],
                         textAlign: TextAlign.justify,
-                        style: const TextStyle(fontSize: 17, color: Colors.white70),
+                        style: const TextStyle(
+                            fontSize: 17, color: Colors.white70),
                       ),
                     ),
                   ],

@@ -8,9 +8,6 @@ import 'package:jetget/widgets/ProductFormWidget.dart' as ProductFormWidget;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_auth/firebase_auth.dart';
 
-// Alias added
-// Alias added
-
 class ProductAddPage extends StatefulWidget {
   const ProductAddPage({super.key});
 
@@ -31,7 +28,8 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
   Future _getImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    final pickedFile =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
 
     if (pickedFile != null) {
       setState(() {
@@ -118,7 +116,6 @@ class _ProductAddPageState extends State<ProductAddPage> {
         ),
         backgroundColor: _colorPalette.black.withOpacity(0.9),
         iconTheme: IconThemeData(color: Colors.white70),
-
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),

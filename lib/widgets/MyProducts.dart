@@ -37,13 +37,11 @@ class _MyProductsState extends State<MyProducts> {
                   Text('Yükleniyor...'),
                 ],
               ),
-            ); // Veri yüklenene kadar loading göster
+            );
           }
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           }
-
-          // Verileri çektiğimiz alan
           List<QueryDocumentSnapshot> myProducts = snapshot.data!.docs;
 
           return GridView.count(
@@ -59,7 +57,8 @@ class _MyProductsState extends State<MyProducts> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => EditProductPage(product: product.id)));
+                            builder: (context) =>
+                                EditProductPage(product: product.id)));
                   },
                   child: IntrinsicHeight(
                     child: Container(
