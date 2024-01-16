@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jetget/palette.dart';
@@ -6,18 +5,18 @@ import 'package:jetget/palette.dart';
 class ItemBottomNavBar extends StatelessWidget {
   final QueryDocumentSnapshot product;
 
-  const ItemBottomNavBar({Key? key, required this.product}) : super(key: key);
+  const ItemBottomNavBar({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    final ColorPalette _colorPalette = ColorPalette();
+    final ColorPalette colorPalette = ColorPalette();
     return BottomAppBar(
       color: Colors.black,
       child: Container(
         height: 70,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: _colorPalette.black.withOpacity(.4),
+          color: colorPalette.black.withOpacity(.4),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
@@ -49,10 +48,10 @@ class ItemBottomNavBar extends StatelessWidget {
               },
               icon: Theme(
                 data: ThemeData(
-                    iconTheme: IconThemeData(color: _colorPalette.darkAqua)),
+                    iconTheme: IconThemeData(color: colorPalette.darkAqua)),
                 child: const Icon(Icons.add_box_rounded),
               ),
-              label: Text(
+              label: const Text(
                 "Başvur",
                 style: TextStyle(
                     fontSize: 16,
@@ -60,7 +59,7 @@ class ItemBottomNavBar extends StatelessWidget {
                     color: Colors.white70),
               ),
               style: ElevatedButton.styleFrom(
-                primary: _colorPalette.black
+                backgroundColor: colorPalette.black
                     .withOpacity(0.9), // Arka plan rengi siyah
               ),
             ),

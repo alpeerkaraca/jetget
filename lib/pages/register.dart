@@ -145,20 +145,20 @@ class RegisterPageState extends State<RegisterPage> {
                                 _emailController.text.isEmpty ||
                                 _passwordController.text.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                       backgroundColor: Colors.red,
                                       content: Text(
                                           "Lütfen tüm alanları doldurun.")));
                               return;
                             } else if (_userNameController.text.length > 17) {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                                   backgroundColor: Colors.red,
                                   content: Text(
                                       "Kullanıcı adı 17 karakterden uzun olamaz.")));
                               return;
                             } else if (_passwordController.text.length < 6) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                       backgroundColor: Colors.red,
                                       content: Text(
                                           "Parola 6 karakterden kısa olamaz.")));
@@ -173,7 +173,7 @@ class RegisterPageState extends State<RegisterPage> {
                                       _passwordController.text)
                                   .then((value) => {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
+                                            .showSnackBar(const SnackBar(
                                                 backgroundColor: Colors.green,
                                                 content:
                                                     Text("Kayıt başarılı."))),

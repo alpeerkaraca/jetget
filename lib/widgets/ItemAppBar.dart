@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:jetget/palette.dart';
 
 class ItemAppBar extends StatelessWidget {
-  const ItemAppBar({Key? key});
+  const ItemAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ColorPalette _colorPalette = ColorPalette();
+    final ColorPalette colorPalette = ColorPalette();
     return Container(
-      color: _colorPalette.black.withOpacity(.4),
+      color: colorPalette.black.withOpacity(.4),
       padding: const EdgeInsets.all(25),
       child: Row(
         children: [
@@ -16,13 +16,13 @@ class ItemAppBar extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
             },
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               size: 30,
               color: Colors.grey, // Buraya istediğiniz renk değerini ekleyebilirsiniz
             ),
           ),
-           Padding(
+           const Padding(
             padding: EdgeInsets.only(left: 20),
             child: Text(
               "Ürün Detayı",

@@ -1,20 +1,13 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 
 class NotificationService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-  Future<void> initNotification() async {
-    await _firebaseMessaging.requestPermission();
-
-    final token = await _firebaseMessaging.getToken();
-    print('Token: $token');
-  }
 
   Future<void> saveNotificationToDB(
       {required String title,
@@ -29,7 +22,7 @@ class NotificationService {
     try {
       if (receiverUid == senderUid) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             backgroundColor: Colors.red,
             content: Text('Kendinize başvuru gönderemezsiniz.'),
           ),
@@ -52,7 +45,7 @@ class NotificationService {
       }).then((value) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${productName} için başvuru gönderildi.'),
+            content: Text('$productName için başvuru gönderildi.'),
           ),
         );
       });
@@ -65,14 +58,28 @@ class NotificationService {
     }
   }
 
-  Future<void> sendNotificationToUser({
-    required String receiverToken,
-    required String title,
-    required String content,
-  }) async {
-    return ;
-  }
 
+// Spesifik bir kullanıcıya bildirim göndermek için Firebase Messagingi kullan.
+void sendPushMessage(String token, String title, String body) async {
+    try {
+      await http.post(
+        Uri.parse('https://fcm.googleapis.com/v1/projects/jetget-dc76f/messages:send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Autharization': 'Bearer '
+        },
+          body: {
+            'message': {
+              'token': token,
+              'notification': {'title': title, 'body': body},
+              'data': {'click_action': 'FLUTTER_NOTIFICATION_CLICK', 'id': '1', 'status': 'done'}
+            }
+        }
+      );
+    } catch (e) {
+      print(e);
+    }
+}
 
 
 

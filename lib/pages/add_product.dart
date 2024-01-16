@@ -29,7 +29,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
 
   Future _getImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
 
     if (pickedFile != null) {
       setState(() {
@@ -73,7 +73,6 @@ class _ProductAddPageState extends State<ProductAddPage> {
       if (_image != null) {
         imageUrl = await uploadImageToFirebase(_image!);
       }
-      print("ID: ${_auth.currentUser!.uid}");
 
       await _productService.addProduct(
         productName,

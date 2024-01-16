@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jetget/palette.dart';
-import 'enums.dart';
 
 class ProductFormWidget extends StatefulWidget {
   final TextEditingController productNameController;
@@ -162,7 +161,7 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
 
   Widget _buildSubmitButton() {
     return ElevatedButton(
-      onPressed: () => widget.submitForm(),
+      onPressed: () { Navigator.pop(context); widget.submitForm();},
       style: ElevatedButton.styleFrom(
           backgroundColor: _colorPalette
               .darkAqua

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:jetget/firebase_options.dart';
@@ -9,17 +8,24 @@ import 'package:jetget/pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'service/product_service.dart';
 import 'package:jetget/pages/notifications.dart';
-import 'package:jetget/service/notification_service.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await NotificationService().initNotification();
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Bir mesaj geldi!');
+    print('Mesaj data: ${message.data}');
+
+    if (message.notification != null) {
+      print('Bildirim de var: ${message.notification}');
+    }
+  });
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({super.key});
 
   Future<void> _navigateToItemPage(BuildContext context) async {
     final ProductService productService = ProductService();
@@ -47,14 +53,14 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        "/": (context) => LoginPage(),
-        "cartPage": (context) => CartPage(),
+        "/": (context) => const LoginPage(),
+        "cartPage": (context) => const CartPage(),
         "itemPage": (context) {
           _navigateToItemPage(context);
           return Container();
         },
-        "homePage": (context) => HomePage(),
-        "notifications": (context) => NotificationsPage(),
+        "homePage": (context) => const HomePage(),
+        "notifications": (context) => const NotificationsPage(),
       },
     );
   }

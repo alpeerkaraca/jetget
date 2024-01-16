@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "../pages/item.dart";
@@ -7,7 +6,7 @@ import 'package:jetget/palette.dart';
 import 'package:jetget/service/notification_service.dart';
 
 class ItemsWidget extends StatefulWidget {
-  ItemsWidget({Key? key}) : super(key: key);
+  const ItemsWidget({super.key});
 
   @override
   State<ItemsWidget> createState() => _ItemsWidgetState();
@@ -19,7 +18,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
   var user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
-    final ColorPalette _colorPalette = ColorPalette();
+    final ColorPalette colorPalette = ColorPalette();
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('Products').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -62,17 +61,24 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                   margin:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                   decoration: BoxDecoration(
-                    color: Color(0XFF2E2A40),
+                    color: const Color(0XFF2E2A40),
                     //color: _colorPalette.black.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Column(
                     children: [
                       Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         child: Image.network(
-                          product['productImg'],
+                          product['productImg'] ??
+                              'https://firebasestorage.googleapis.com/v0/b/jetget-dc76f.appspot.com/o/ProductImages%2Fyok.png?alt=media&token=eeb62242-9308-40dc-8aab-4e109fc23564',
                           height: 128,
+
                           width: 128,
+                          cacheWidth: 128,
+                          cacheHeight: 128,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -86,7 +92,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                       Container(
                         child: Text(
                           product['productName'],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             overflow: TextOverflow.ellipsis,
                             color: Colors.white70,
@@ -124,7 +130,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text.rich(TextSpan(children: [
-                                        WidgetSpan(
+                                        const WidgetSpan(
                                             child: Icon(Icons.person,
                                                 color: Colors.white70)),
                                         TextSpan(
@@ -142,15 +148,15 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            Icon(Icons.price_change,
+                                            const Icon(Icons.price_change,
                                                 color: Colors.white70,
                                                 size: 18),
                                             Text('${product.get('price')}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.white70,
                                                     fontWeight:
                                                         FontWeight.bold)),
-                                            Icon(
+                                            const Icon(
                                               Icons.currency_lira,
                                               color: Colors.white70,
                                               size: 18,
@@ -159,7 +165,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                         ),
                                       ),
                                       Center(
-                                          child: Container(
+                                          child: SizedBox(
                                               height: 48,
                                               width: 144,
                                               child: FutureBuilder(
@@ -191,7 +197,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                               .saveNotificationToDB(
                                                             title: 'Başvuru',
                                                             content:
-                                                                '${userName} adlı kullanıcı ${product.get('productName')} için başvuru gönderdi.',
+                                                                '$userName adlı kullanıcı ${product.get('productName')} için başvuru gönderdi.',
                                                             receiverUid:
                                                                 product.get(
                                                                     'creatorUid'),
@@ -210,36 +216,28 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                                     'productName'),
                                                             context: context,
                                                           );
-                                                          _notificationService
-                                                              .sendNotificationToUser(
-                                                            receiverToken:
-                                                                snapshot.data!
-                                                                    .get(
-                                                                        'token'),
-                                                            title: 'Başvuru',
-                                                            content:
-                                                                '@${userName} size başvuru gönderdi.',
-                                                          );
+                                                          //TODO: Başvuru gönderildiğinde başvuru sayısını arttır ve BİLDİRİM GÖNDER
+                                                          _notificationService.sendPushMessage(snapshot.data!.get('token'), "Yeni Başvuru Teklifi!", "$userName adlı kullanıcı ${product.get('productName')} için başvuru gönderdi.");
                                                         },
-                                                        icon: Icon(
+                                                        icon: const Icon(
                                                             Icons.add_circle),
-                                                        label: Text('Başvur'),
+                                                        label: const Text('Başvur'),
                                                       );
                                                     } else {
-                                                      return Text("");
+                                                      return const Text("");
                                                     }
                                                   } else {
-                                                    return Text(
+                                                    return const Text(
                                                         "Kullanıcı adı alınıyor...");
                                                   }
                                                 },
                                               )))
                                     ]);
                               } else {
-                                return Text("");
+                                return const Text("");
                               }
                             } else {
-                              return Text("Kullanıcı adı alınıyor...");
+                              return const Text("Kullanıcı adı alınıyor...");
                             }
                           },
                         ),

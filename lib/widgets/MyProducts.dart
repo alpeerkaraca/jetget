@@ -57,11 +57,9 @@ class _MyProductsState extends State<MyProducts> {
                   borderRadius: BorderRadius.circular(20),
                   onTap: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditProductPage(product: product),
-                      ),
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditProductPage(product: product.id)));
                   },
                   child: IntrinsicHeight(
                     child: Container(
@@ -72,7 +70,7 @@ class _MyProductsState extends State<MyProducts> {
                       margin: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 10),
                       decoration: BoxDecoration(
-                        color: Color(0XFF2E2A40),
+                        color: const Color(0XFF2E2A40),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Column(
@@ -104,7 +102,7 @@ class _MyProductsState extends State<MyProducts> {
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.only(top: 10),
                             child: Text(
-                              product['price'].toString() + " ₺",
+                              "${product['price']} ₺",
                               style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,

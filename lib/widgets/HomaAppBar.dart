@@ -7,9 +7,9 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorPalette _colorPalette = ColorPalette();
+    final ColorPalette colorPalette = ColorPalette();
     return Container(
-      color: _colorPalette.black.withOpacity(0.9),
+      color: colorPalette.black.withOpacity(0.9),
       padding: const EdgeInsets.all(25),
       child: Row(
         children: [
@@ -42,7 +42,7 @@ class HomeAppBar extends StatelessWidget {
                   ),
                 );
               },
-              child: Icon(
+              child: const Icon(
                 Icons.notifications,
                 size: 32,
                 color: Colors.white70,

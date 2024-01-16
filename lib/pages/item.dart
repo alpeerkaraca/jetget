@@ -8,21 +8,15 @@ import 'package:jetget/palette.dart';
 class ItemPage extends StatelessWidget {
   final QueryDocumentSnapshot product;
 
-  const ItemPage({Key? key, required this.product}) : super(key: key);
+  const ItemPage({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    if (product == null) {
-      return Scaffold(
-        body: Center(
-          child: Text("Hata: Ürün bilgisi alınamadı."),
-        ),
-      );
-    }
-    final ColorPalette _colorPalette = ColorPalette();
+    final ColorPalette colorPalette = ColorPalette();
     return Scaffold(
-      backgroundColor: _colorPalette.black.withOpacity(.2),
-      body: ListView(
+      backgroundColor: colorPalette.black.withOpacity(.2),
+      body:
+      ListView(
         children: [
           const ItemAppBar(),
           Padding(
@@ -40,7 +34,7 @@ class ItemPage extends StatelessWidget {
             height: 30,
             child: Container(
               width: double.infinity,
-              color: _colorPalette.black.withOpacity(.4),
+              color: colorPalette.black.withOpacity(.4),
               child: Padding(
                 padding: const EdgeInsets.only(
                   top: 48,
@@ -56,7 +50,7 @@ class ItemPage extends StatelessWidget {
                       children: [
                         Text(
                           product['productName'],
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 28,
                             color: Colors.white70,
                             fontWeight: FontWeight.bold,
@@ -69,7 +63,7 @@ class ItemPage extends StatelessWidget {
                       child: Text(
                         product['desc'],
                         textAlign: TextAlign.justify,
-                        style: TextStyle(fontSize: 17, color: Colors.white70),
+                        style: const TextStyle(fontSize: 17, color: Colors.white70),
                       ),
                     ),
                   ],
