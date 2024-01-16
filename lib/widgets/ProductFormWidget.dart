@@ -30,17 +30,14 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
   final ColorPalette _colorPalette = ColorPalette();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
+      color: _colorPalette.black.withOpacity(0.9),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -77,10 +74,12 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
   }) {
     return TextFormField(
       controller: controller,
+      style: TextStyle(color: Colors.white), // Metin rengi
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(
           fontWeight: FontWeight.bold,
+          color: Colors.white, // Etiket rengi
         ),
       ),
       maxLines: maxLines,
@@ -99,10 +98,12 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
         Expanded(
           child: TextFormField(
             controller: widget.priceController,
+            style: TextStyle(color: Colors.white), // Metin rengi
             decoration: InputDecoration(
               labelText: 'Fiyat',
               labelStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
+                color: Colors.white, // Etiket rengi
               ),
               suffixIcon: Container(
                 margin: const EdgeInsets.only(right: 12.0),
@@ -111,7 +112,8 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
                   '₺',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18.0, // Özelleştirebilirsiniz
+                    fontSize: 18.0,
+                    color: Colors.white, // Suffix icon rengi
                   ),
                 ),
               ),
@@ -140,32 +142,34 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
         ),
         child: widget.image != null
             ? ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.file(
-                  widget.image!,
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              )
+          borderRadius: BorderRadius.circular(10),
+          child: Image.file(
+            widget.image!,
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
+          ),
+        )
             : const Center(
-                child: Icon(
-                  Icons.camera_alt,
-                  color: Colors.grey,
-                  size: 48,
-                ),
-              ),
+          child: Icon(
+            Icons.camera_alt,
+            color: Colors.grey,
+            size: 48,
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildSubmitButton() {
     return ElevatedButton(
-      onPressed: () { Navigator.pop(context); widget.submitForm();},
+      onPressed: () {
+        Navigator.pop(context);
+        widget.submitForm();
+      },
       style: ElevatedButton.styleFrom(
-          backgroundColor: _colorPalette
-              .darkAqua
-          ),
+        backgroundColor: _colorPalette.darkAqua,
+      ),
       child: const Text(
         'Ürün Ekle',
         style: TextStyle(
@@ -175,5 +179,4 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
       ),
     );
   }
-
 }

@@ -40,7 +40,7 @@ class _ItemsWidgetState extends State<ItemsWidget> {
         }
 
         List<QueryDocumentSnapshot> products = snapshot.data!.docs;
-        
+
         if (widget.selectedCategory.isNotEmpty) {
           products = products
               .where((product) =>
@@ -200,39 +200,34 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                       var userName = snapshot
                                                           .data!
                                                           .get('userName');
-                                                      return ElevatedButton
-                                                          .icon(
+                                                      return ElevatedButton.icon(
                                                         onPressed: () {
-                                                          _notificationService
-                                                              .saveNotificationToDB(
+                                                          _notificationService.saveNotificationToDB(
                                                             title: 'Başvuru',
-                                                            content:
-                                                                '$userName adlı kullanıcı ${product.get('productName')} için başvuru gönderdi.',
-                                                            receiverUid:
-                                                                product.get(
-                                                                    'creatorUid'),
-                                                            senderUid:
-                                                                user!.uid,
-                                                            senderImageURL:
-                                                                snapshot.data!.get(
-                                                                    'profilePhotoUrl'),
-                                                            senderUserName:
-                                                                snapshot.data!.get(
-                                                                    'userName'),
-                                                            productID:
-                                                                product.id,
-                                                            productName:
-                                                                product.get(
-                                                                    'productName'),
+                                                            content: '$userName adlı kullanıcı ${product.get('productName')} için başvuru gönderdi.',
+                                                            receiverUid: product.get('creatorUid'),
+                                                            senderUid: user!.uid,
+                                                            senderImageURL: snapshot.data!.get('profilePhotoUrl'),
+                                                            senderUserName: userName,
+                                                            productID: product.id,
+                                                            productName: product.get('productName'),
                                                             context: context,
                                                           );
-                                                          //TODO: Başvuru gönderildiğinde başvuru sayısını arttır ve BİLDİRİM GÖNDER
-                                                          _notificationService.sendPushMessage(snapshot.data!.get('token'), "Yeni Başvuru Teklifi!", "$userName adlı kullanıcı ${product.get('productName')} için başvuru gönderdi.");
+
+                                                          // FCM bildirim gönderme
+                                                          _notificationService.sendPushMessage(
+                                                            snapshot.data!.get('token'),
+                                                            "Yeni Başvuru Teklifi!",
+                                                            "$userName adlı kullanıcı ${product.get('productName')} ürünü için başvuru gönderdi.",
+                                                          );
+
+                                                          // Buraya başvuru yapıldığında yapılacak işlemleri ekleyebilirsiniz.
                                                         },
-                                                        icon: const Icon(
-                                                            Icons.add_circle),
+                                                        icon: const Icon(Icons.add_circle),
                                                         label: const Text('Başvur'),
                                                       );
+
+
                                                     } else {
                                                       return const Text("");
                                                     }

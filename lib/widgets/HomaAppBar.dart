@@ -13,13 +13,8 @@ class HomeAppBar extends StatelessWidget {
       padding: const EdgeInsets.all(25),
       child: Row(
         children: [
-          const Icon(
-            Icons.sort,
-            size: 30,
-            color: Colors.white70,
-          ),
           const Padding(
-            padding: EdgeInsets.only(left: 20),
+            padding: EdgeInsets.only(left: 0),
             child: Text(
               "JetGet",
               style: TextStyle(

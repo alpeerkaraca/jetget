@@ -7,6 +7,7 @@ import 'package:jetget/service/product_service.dart'
 import 'package:jetget/widgets/ProductFormWidget.dart' as ProductFormWidget;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_auth/firebase_auth.dart';
+
 // Alias added
 // Alias added
 
@@ -26,6 +27,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
   File? _image; // Specifying the alias
   final ProductService.ProductService _productService =
       ProductService.ProductService(); // Specifying the alias
+  final ColorPalette _colorPalette = ColorPalette();
 
   Future _getImage() async {
     final picker = ImagePicker();
@@ -104,19 +106,19 @@ class _ProductAddPageState extends State<ProductAddPage> {
     ColorPalette colorPalette = ColorPalette();
 
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           'Ürün Ekle',
           style: TextStyle(
             fontSize: 23,
             fontWeight: FontWeight.bold,
-            color: colorPalette.darkAqua,
+            color: Colors.white70,
           ),
         ),
-        backgroundColor: Colors.white,
-        actions: const [
-          // Bu kısmı Badge widget'ını ekleyerek güncelleyebilirsiniz.
-        ],
+        backgroundColor: _colorPalette.black.withOpacity(0.9),
+        iconTheme: IconThemeData(color: Colors.white70),
+
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
