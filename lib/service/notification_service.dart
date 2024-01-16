@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:io';
 
 class NotificationService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -59,6 +62,7 @@ class NotificationService {
   }
 
 
+
 // Spesifik bir kullanıcıya bildirim göndermek için Firebase Messagingi kullan.
 void sendPushMessage(String token, String title, String body) async {
     try {
@@ -66,7 +70,7 @@ void sendPushMessage(String token, String title, String body) async {
         Uri.parse('https://fcm.googleapis.com/v1/projects/jetget-dc76f/messages:send'),
         headers: <String, String>{
           'Content-Type': 'application/json',
-          'Autharization': 'Bearer '
+          'Authorization': 'Bearer ya29.a0AfB_byDlrXpNOkxGznMfWI6twJBnYke89L3Nycc0lQ3Xda_-3fyGJRUGE7HcUcu1jzXePkCn29sjNBxfM4vwDjymGYeHj-lyGPiyOv3UZsyj3sVSJN3U06RInP6QQHhQmYFOdTAb38HYlRjDwEbE3o30180y74faNd4aCgYKAXkSARESFQHGX2Milr-LjVaCMALAGHeYv3mUGQ0170'
         },
           body: {
             'message': {
@@ -94,3 +98,4 @@ void sendPushMessage(String token, String title, String body) async {
 
 
 }
+

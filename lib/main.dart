@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:jetget/firebase_options.dart';
-import 'package:jetget/pages/cart.dart';
 import 'package:jetget/pages/home.dart';
 import 'package:jetget/pages/item.dart';
 import 'package:jetget/pages/login.dart';
@@ -54,7 +53,6 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         "/": (context) => const LoginPage(),
-        "cartPage": (context) => const CartPage(),
         "itemPage": (context) {
           _navigateToItemPage(context);
           return Container();

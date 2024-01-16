@@ -16,6 +16,14 @@ class _AccountDetailsState extends State<AccountDetails> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _colorPalette = ColorPalette();
+  late int totalProduct = 0;
+  void updateTotalProduct() async {
+    int productCount = await getTotalProductCountCreatedByThisUser();
+    setState(() {
+      totalProduct = productCount;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +57,7 @@ class _AccountDetailsState extends State<AccountDetails> {
           }
 
           var userData = snapshot.data;
+          updateTotalProduct();
           return ListView(
               padding: const EdgeInsets.only(top: 20),
               physics: const BouncingScrollPhysics(),
@@ -82,6 +91,9 @@ class _AccountDetailsState extends State<AccountDetails> {
         },
       ),
     );
+
+
+
   }
 
   profilePicture({String? image}) {
@@ -131,9 +143,9 @@ class _AccountDetailsState extends State<AccountDetails> {
         child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        buildStatistic("Ürün", userData['urun'].toString()),
-        const SizedBox(height: 24, child: VerticalDivider()),
-        buildStatistic("Tedarik", userData?['tedarik'].toString()),
+        buildStatistic("Ürün", totalProduct.toString()),
+         SizedBox(height: 24, child: VerticalDivider()),
+        buildStatistic("Tedarik", totalProduct.toString()),
         SizedBox(height: 24, child: Container(child: const VerticalDivider())),
         buildStatistic("Başvuru", userData?['basvuru'].toString()),
       ],
@@ -175,16 +187,33 @@ Widget buildCircle({
           Container(padding: EdgeInsets.all(all), color: color, child: child));
 }
 
-Widget buildUserInformations(userData) {
+getTotalProductCountCreatedByThisUser() async {
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  final _user = _auth.currentUser;
+  final _userUid = _user!.uid;
+  var productNum = 0;
 
-  return Column(
-    children: [
-      Text(userData?['userName'] ?? ' ',
-          style: const TextStyle(
-              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
-      Text(userData?['email'] ?? ' ',
-          style: const TextStyle(
-              fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey)),
-    ],
-  );
+  final _querySnapshot = await _firestore
+      .collection('Products')
+      .where('creatorUid', isEqualTo: _userUid)
+      .get().then((value) => productNum = value.docs.length);
+  return productNum;
 }
+
+
+
+  Widget buildUserInformations(userData) {
+    return Column(
+      children: [
+        Text(userData?['userName'] ?? ' ',
+            style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white)),
+        Text(userData?['email'] ?? ' ',
+            style: const TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey)),
+      ],
+    );
+  }

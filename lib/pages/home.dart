@@ -6,23 +6,26 @@ import 'package:jetget/widgets/ItemsWidget.dart';
 import 'add_product.dart';
 import 'package:jetget/palette.dart';
 
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final ColorPalette colorPalette = ColorPalette();
 
   @override
   Widget build(BuildContext context) {
-    final ColorPalette colorPalette = ColorPalette();
-
     return Scaffold(
       backgroundColor: colorPalette.black,
       body: ListView(
         children: [
           const HomeAppBar(),
           Container(
-
             padding: const EdgeInsets.only(top: 15),
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
               color: colorPalette.black.withOpacity(0.9),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(35),
@@ -47,17 +50,16 @@ class HomePage extends StatelessWidget {
                       child: TextFormField(
                         decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: "Search here...",
+                          hintText: "Aradığınız ürünü bulun...",
                         ),
                       ),
                     ),
                   ]),
                 ),
-
                 Container(
                   alignment: Alignment.centerLeft,
                   margin:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: const Text(
                     "Ürünler",
                     style: TextStyle(
@@ -67,8 +69,8 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                //Items Widget
-                 const ItemsWidget(),
+                // Items Widget
+                const ItemsWidget(),
               ],
             ),
           ),
@@ -91,7 +93,7 @@ class HomePage extends StatelessWidget {
           }
         },
         height: 70,
-        color:  Colors.black.withOpacity(0.9),
+        color: Colors.black.withOpacity(0.9),
         items: const [
           Icon(Icons.home, size: 30, color: Colors.white70),
           Icon(
@@ -109,3 +111,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
