@@ -40,7 +40,7 @@ class ProductService {
     }
   }
 
-  updateProject(String id, String productName, String category,
+  updateProduct(String id, String productName, String category,
       String description, double price, String productImg) async {
     CollectionReference productsCollection = _firestore.collection('Products');
     try {

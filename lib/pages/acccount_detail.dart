@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jetget/pages/edit_profile.dart';
 import 'package:jetget/palette.dart';
+import 'package:jetget/service/apply_works.dart';
 import 'package:jetget/widgets/MyProducts.dart';
+import 'package:jetget/pages/applied_products.dart';
+import 'package:jetget/pages/applied_products.dart';
 
 class AccountDetails extends StatefulWidget {
   const AccountDetails({super.key});
@@ -139,17 +142,46 @@ class _AccountDetailsState extends State<AccountDetails> {
         child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        buildStatistic("Ürün", totalProduct.toString()),
+        buildStatistic("Ürün", totalProduct.toString(), context),
         SizedBox(height: 24, child: VerticalDivider()),
-        buildStatistic("Tedarik", totalProduct.toString()),
+        buildStatistic("Tedarik", totalProduct.toString(), context),
         SizedBox(height: 24, child: Container(child: const VerticalDivider())),
-        buildStatistic("Başvuru", userData?['basvuru'].toString()),
+        buildStatistic("Başvuru", userData?['basvuru'].toString(), context),
       ],
     ));
   }
 }
 
-Widget buildStatistic(String title, String? info) {
+Widget buildStatistic(String title, String? info, BuildContext context) {
+  if(title == "Başvuru"){
+    return MaterialButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>  AppliedProductsPage()),
+        );
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+                fontSize: 20, fontWeight: FontWeight.w400, color: Colors.white),
+          ),
+          Text(
+            info!,
+            style: const TextStyle(
+                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
   return MaterialButton(
     onPressed: () {},
     child: Column(

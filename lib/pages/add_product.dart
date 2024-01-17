@@ -104,7 +104,7 @@ class _ProductAddPageState extends State<ProductAddPage> {
     ColorPalette colorPalette = ColorPalette();
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: colorPalette.black,
       appBar: AppBar(
         title: Text(
           'Ürün Ekle',

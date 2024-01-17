@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "../pages/item.dart";
 import 'package:jetget/palette.dart';
 import 'package:jetget/service/notification_service.dart';
+import 'package:jetget/service/apply_works.dart';
 
 class ItemsWidget extends StatefulWidget {
   const ItemsWidget({Key? key, required this.selectedCategory})
@@ -17,6 +19,7 @@ class ItemsWidget extends StatefulWidget {
 
 class _ItemsWidgetState extends State<ItemsWidget> {
   final NotificationService _notificationService = NotificationService();
+  final Applies _applies = Applies();
 
   var user = FirebaseAuth.instance.currentUser;
   @override
@@ -224,6 +227,16 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                                     'productName'),
                                                             context: context,
                                                           );
+                                                          _applies
+                                                              .applyToProduct(
+                                                                  product:
+                                                                      product,
+                                                                  snapshot:
+                                                                      snapshot,
+                                                                  userName:
+                                                                      userName);
+
+                                                          _applies.saveToProductApplicants(product: product, snapshot: snapshot, userName: userName);
 
                                                           _notificationService
                                                               .sendPushMessage(

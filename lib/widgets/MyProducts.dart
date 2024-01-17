@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jetget/pages/edit_product_details.dart';
+import 'package:jetget/pages/add_product.dart';
 
 class MyProducts extends StatefulWidget {
   const MyProducts({super.key});
@@ -43,6 +44,32 @@ class _MyProductsState extends State<MyProducts> {
             return Text('Error: ${snapshot.error}');
           }
           List<QueryDocumentSnapshot> myProducts = snapshot.data!.docs;
+
+          if(myProducts.length == 0){
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Henüz ürününüz yok.",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  Text(
+                    "Ürün eklemek için + butonuna basın.",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ProductAddPage()));}, icon: Icon(Icons.add, color: Colors.white, size: 50,)),
+                ],
+              ),
+            );
+          }
 
           return GridView.count(
             childAspectRatio: 0.68,
