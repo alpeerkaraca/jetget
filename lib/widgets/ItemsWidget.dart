@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "../pages/item.dart";
 import 'package:jetget/palette.dart';
 import 'package:jetget/service/notification_service.dart';
+import 'package:jetget/service/apply_works.dart';
 
 class ItemsWidget extends StatefulWidget {
-  const ItemsWidget({Key? key, required this.selectedCategory}) : super(key: key);
+  const ItemsWidget({Key? key, required this.selectedCategory})
+      : super(key: key);
 
   final String selectedCategory;
 
@@ -15,8 +18,8 @@ class ItemsWidget extends StatefulWidget {
 }
 
 class _ItemsWidgetState extends State<ItemsWidget> {
-
   final NotificationService _notificationService = NotificationService();
+  final Applies _applies = Applies();
 
   var user = FirebaseAuth.instance.currentUser;
   @override
@@ -44,7 +47,8 @@ class _ItemsWidgetState extends State<ItemsWidget> {
         if (widget.selectedCategory.isNotEmpty) {
           products = products
               .where((product) =>
-          product['category'].toLowerCase() == widget.selectedCategory.toLowerCase())
+                  product['category'].toLowerCase() ==
+                  widget.selectedCategory.toLowerCase())
               .toList();
         }
 
@@ -72,7 +76,6 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                   decoration: BoxDecoration(
                     color: const Color(0XFF2E2A40),
-                    //color: _colorPalette.black.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Column(
@@ -85,7 +88,6 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                           product['productImg'] ??
                               'https://firebasestorage.googleapis.com/v0/b/jetget-dc76f.appspot.com/o/ProductImages%2Fyok.png?alt=media&token=eeb62242-9308-40dc-8aab-4e109fc23564',
                           height: 128,
-
                           width: 128,
                           cacheWidth: 128,
                           cacheHeight: 128,
@@ -200,34 +202,55 @@ class _ItemsWidgetState extends State<ItemsWidget> {
                                                       var userName = snapshot
                                                           .data!
                                                           .get('userName');
-                                                      return ElevatedButton.icon(
+                                                      return ElevatedButton
+                                                          .icon(
                                                         onPressed: () {
-                                                          _notificationService.saveNotificationToDB(
+                                                          _notificationService
+                                                              .saveNotificationToDB(
                                                             title: 'Başvuru',
-                                                            content: '$userName adlı kullanıcı ${product.get('productName')} için başvuru gönderdi.',
-                                                            receiverUid: product.get('creatorUid'),
-                                                            senderUid: user!.uid,
-                                                            senderImageURL: snapshot.data!.get('profilePhotoUrl'),
-                                                            senderUserName: userName,
-                                                            productID: product.id,
-                                                            productName: product.get('productName'),
+                                                            content:
+                                                                '$userName adlı kullanıcı ${product.get('productName')} için başvuru gönderdi.',
+                                                            receiverUid:
+                                                                product.get(
+                                                                    'creatorUid'),
+                                                            senderUid:
+                                                                user!.uid,
+                                                            senderImageURL:
+                                                                snapshot.data!.get(
+                                                                    'profilePhotoUrl'),
+                                                            senderUserName:
+                                                                userName,
+                                                            productID:
+                                                                product.id,
+                                                            productName:
+                                                                product.get(
+                                                                    'productName'),
                                                             context: context,
                                                           );
+                                                          _applies
+                                                              .applyToProduct(
+                                                                  product:
+                                                                      product,
+                                                                  snapshot:
+                                                                      snapshot,
+                                                                  userName:
+                                                                      userName);
 
-                                                          // FCM bildirim gönderme
-                                                          _notificationService.sendPushMessage(
-                                                            snapshot.data!.get('token'),
+                                                          _applies.saveToProductApplicants(product: product, snapshot: snapshot, userName: userName);
+
+                                                          _notificationService
+                                                              .sendPushMessage(
+                                                            snapshot.data!
+                                                                .get('token'),
                                                             "Yeni Başvuru Teklifi!",
                                                             "$userName adlı kullanıcı ${product.get('productName')} ürünü için başvuru gönderdi.",
                                                           );
-
-                                                          // Buraya başvuru yapıldığında yapılacak işlemleri ekleyebilirsiniz.
                                                         },
-                                                        icon: const Icon(Icons.add_circle),
-                                                        label: const Text('Başvur'),
+                                                        icon: const Icon(
+                                                            Icons.add_circle),
+                                                        label: const Text(
+                                                            'Başvur'),
                                                       );
-
-
                                                     } else {
                                                       return const Text("");
                                                     }

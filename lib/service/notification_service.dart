@@ -11,7 +11,6 @@ class NotificationService {
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-
   Future<void> saveNotificationToDB(
       {required String title,
       required String content,
@@ -61,41 +60,35 @@ class NotificationService {
     }
   }
 
-
-
-// Spesifik bir kullanıcıya bildirim göndermek için Firebase Messagingi kullan.
-void sendPushMessage(String token, String title, String body) async {
+  void sendPushMessage(String token, String title, String body) async {
     try {
       await http.post(
-        Uri.parse('https://fcm.googleapis.com/v1/projects/jetget-dc76f/messages:send'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ya29.a0AfB_byDlrXpNOkxGznMfWI6twJBnYke89L3Nycc0lQ3Xda_-3fyGJRUGE7HcUcu1jzXePkCn29sjNBxfM4vwDjymGYeHj-lyGPiyOv3UZsyj3sVSJN3U06RInP6QQHhQmYFOdTAb38HYlRjDwEbE3o30180y74faNd4aCgYKAXkSARESFQHGX2Milr-LjVaCMALAGHeYv3mUGQ0170'
-        },
+          Uri.parse(
+              'https://fcm.googleapis.com/v1/projects/jetget-dc76f/messages:send'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization':
+                'Bearer ya29.a0AfB_byDlrXpNOkxGznMfWI6twJBnYke89L3Nycc0lQ3Xda_-3fyGJRUGE7HcUcu1jzXePkCn29sjNBxfM4vwDjymGYeHj-lyGPiyOv3UZsyj3sVSJN3U06RInP6QQHhQmYFOdTAb38HYlRjDwEbE3o30180y74faNd4aCgYKAXkSARESFQHGX2Milr-LjVaCMALAGHeYv3mUGQ0170'
+          },
           body: {
             'message': {
               'token': token,
               'notification': {'title': title, 'body': body},
-              'data': {'click_action': 'FLUTTER_NOTIFICATION_CLICK', 'id': '1', 'status': 'done'}
+              'data': {
+                'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+                'id': '1',
+                'status': 'done'
+              }
             }
-        }
-      );
+          });
     } catch (e) {
       print(e);
     }
-}
+  }
 
-
-
-
-
- Future<void> handleBackgroundMessage(RemoteMessage message) async {
+  Future<void> handleBackgroundMessage(RemoteMessage message) async {
     print('Title: ${message.notification!.title}');
     print('Body: ${message.notification!.body}');
     print('Payload: ${message.data}');
   }
-
-
-
 }
-

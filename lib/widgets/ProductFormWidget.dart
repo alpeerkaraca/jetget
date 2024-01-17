@@ -31,7 +31,6 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
@@ -74,12 +73,12 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
   }) {
     return TextFormField(
       controller: controller,
-      style: TextStyle(color: Colors.white), // Metin rengi
+      style: TextStyle(color: Colors.white),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.white, // Etiket rengi
+          color: Colors.white,
         ),
       ),
       maxLines: maxLines,
@@ -98,12 +97,12 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
         Expanded(
           child: TextFormField(
             controller: widget.priceController,
-            style: TextStyle(color: Colors.white), // Metin rengi
+            style: TextStyle(color: Colors.white),
             decoration: InputDecoration(
               labelText: 'Fiyat',
               labelStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.white, // Etiket rengi
+                color: Colors.white,
               ),
               suffixIcon: Container(
                 margin: const EdgeInsets.only(right: 12.0),
@@ -113,7 +112,7 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
-                    color: Colors.white, // Suffix icon rengi
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -142,21 +141,21 @@ class _ProductFormWidgetState extends State<ProductFormWidget> {
         ),
         child: widget.image != null
             ? ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.file(
-            widget.image!,
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.cover,
-          ),
-        )
+                borderRadius: BorderRadius.circular(10),
+                child: Image.file(
+                  widget.image!,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              )
             : const Center(
-          child: Icon(
-            Icons.camera_alt,
-            color: Colors.grey,
-            size: 48,
-          ),
-        ),
+                child: Icon(
+                  Icons.camera_alt,
+                  color: Colors.grey,
+                  size: 48,
+                ),
+              ),
       ),
     );
   }

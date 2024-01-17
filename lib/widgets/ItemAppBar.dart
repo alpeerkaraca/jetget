@@ -19,17 +19,17 @@ class ItemAppBar extends StatelessWidget {
             child: const Icon(
               Icons.arrow_back,
               size: 30,
-              color: Colors.grey, // Buraya istediğiniz renk değerini ekleyebilirsiniz
+              color: Colors.grey,
             ),
           ),
-           const Padding(
+          const Padding(
             padding: EdgeInsets.only(left: 20),
             child: Text(
               "Ürün Detayı",
               style: TextStyle(
                 fontSize: 23,
                 fontWeight: FontWeight.bold,
-                color: Colors.grey, // _colorPalette'den renk alınacak
+                color: Colors.grey,
               ),
             ),
           ),

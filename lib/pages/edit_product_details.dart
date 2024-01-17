@@ -233,14 +233,21 @@ class _EditProductPageState extends State<EditProductPage> {
                           ? imageURL
                           : product['productImg'],
                     }).then((value) => ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              backgroundColor: Colors.green,
-                              content: Text('Ürün Düzenlendi'),
-                            )));
+                        .showSnackBar(const SnackBar(
+                      backgroundColor: Colors.green,
+                      content: Text('Ürün Düzenlendi'),
+                    )));
                     Navigator.pop(context);
                   },
-                  child: const Text('Kaydet'),
+                  child: Text(
+                    'Kaydet',
+                    style: TextStyle(
+                      color: Colors.white, // Beyaz renk
+                    ),
+                  ),
                 ),
+
+
               ],
             );
           }),

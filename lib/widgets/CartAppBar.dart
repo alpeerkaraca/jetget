@@ -11,7 +11,6 @@ class CartAppBar extends StatelessWidget {
       child: Row(children: [
         InkWell(
           onTap: () {
-            // goes back to HomePage
             Navigator.pop(context);
           },
           child: const Icon(
