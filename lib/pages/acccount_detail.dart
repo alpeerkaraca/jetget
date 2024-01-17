@@ -142,8 +142,6 @@ class _AccountDetailsState extends State<AccountDetails> {
         child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        buildStatistic("Ürün", totalProduct.toString(), context),
-        SizedBox(height: 24, child: VerticalDivider()),
         buildStatistic("Tedarik", totalProduct.toString(), context),
         SizedBox(height: 24, child: Container(child: const VerticalDivider())),
         buildStatistic("Başvuru", userData?['basvuru'].toString(), context),
@@ -153,12 +151,12 @@ class _AccountDetailsState extends State<AccountDetails> {
 }
 
 Widget buildStatistic(String title, String? info, BuildContext context) {
-  if(title == "Başvuru"){
+  if (title == "Başvuru") {
     return MaterialButton(
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) =>  AppliedProductsPage()),
+          MaterialPageRoute(builder: (context) => AppliedProductsPage()),
         );
       },
       child: Column(
@@ -179,8 +177,6 @@ Widget buildStatistic(String title, String? info, BuildContext context) {
       ),
     );
   }
-
-
 
   return MaterialButton(
     onPressed: () {},

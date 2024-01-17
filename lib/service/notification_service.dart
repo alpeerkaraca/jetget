@@ -29,7 +29,7 @@ class NotificationService {
             content: Text('Kendinize başvuru gönderemezsiniz.'),
           ),
         );
-        //return;
+        return;
       }
       await _firestore
           .collection('Users')

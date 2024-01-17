@@ -22,6 +22,9 @@ class ItemPage extends StatelessWidget {
             .collection("Applicants")
             .snapshots(),
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
           if (snapshot.hasError) {
             return _buildBody(context, product);
           } else {
@@ -154,16 +157,18 @@ class ItemPage extends StatelessWidget {
                           ),
                         ],
                       ))),
-                  
-                  Text.rich(TextSpan(
-                    children:[
-                      WidgetSpan(child: Icon(Icons.category, color: Colors.white70, size: 16)),
-                      TextSpan(text:" "+ product['category'], style: const TextStyle(
+                  Text.rich(TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.category,
+                            color: Colors.white70, size: 16)),
+                    TextSpan(
+                      text: " " + product['category'],
+                      style: const TextStyle(
                         fontSize: 17,
                         color: Colors.white70,
-                      ),),
-                    ]
-                  ))
+                      ),
+                    ),
+                  ]))
                 ],
               ),
             ),
