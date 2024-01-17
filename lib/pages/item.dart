@@ -25,7 +25,8 @@ class ItemPage extends StatelessWidget {
           if (snapshot.hasError) {
             return _buildBody(context, product);
           } else {
-            return buildBodyWithApplicants(context, product, snapshot.data!.docs);
+            return buildBodyWithApplicants(
+                context, product, snapshot.data!.docs);
           }
         },
       ),
@@ -76,16 +77,18 @@ class ItemPage extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      product['desc'],
-                      textAlign: TextAlign.justify,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        color: Colors.white70,
-                      ),
-                    ),
-                  ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Text.rich(TextSpan(
+                        children: [
+                          TextSpan(
+                            text: product['desc'],
+                            style: const TextStyle(
+                              fontSize: 17,
+                              color: Colors.white70,
+                            ),
+                          ),
+                        ],
+                      ))),
                 ],
               ),
             ),
@@ -139,16 +142,28 @@ class ItemPage extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Text(
-                      product['desc'],
-                      textAlign: TextAlign.justify,
-                      style: const TextStyle(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Text.rich(TextSpan(
+                        children: [
+                          TextSpan(
+                            text: product['desc'],
+                            style: const TextStyle(
+                              fontSize: 17,
+                              color: Colors.white70,
+                            ),
+                          ),
+                        ],
+                      ))),
+                  
+                  Text.rich(TextSpan(
+                    children:[
+                      WidgetSpan(child: Icon(Icons.category, color: Colors.white70, size: 16)),
+                      TextSpan(text:" "+ product['category'], style: const TextStyle(
                         fontSize: 17,
                         color: Colors.white70,
-                      ),
-                    ),
-                  ),
+                      ),),
+                    ]
+                  ))
                 ],
               ),
             ),
@@ -173,7 +188,7 @@ class ItemPage extends StatelessWidget {
                 return ListTile(
                   leading: CircleAvatar(
                     backgroundImage:
-                    NetworkImage(applicant['applierProfilePhotoUrl']),
+                        NetworkImage(applicant['applierProfilePhotoUrl']),
                   ),
                   title: Text(applicant['applierUserName'],
                       style: TextStyle(color: Colors.white)),
