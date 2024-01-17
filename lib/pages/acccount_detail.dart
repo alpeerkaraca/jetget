@@ -19,13 +19,21 @@ class _AccountDetailsState extends State<AccountDetails> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _colorPalette = ColorPalette();
-  late int totalProduct = 0;
+  late int totalProduct = 0, totalApplies = 0;
   void updateTotalProduct() async {
     int productCount = await getTotalProductCountCreatedByThisUser();
     setState(() {
       totalProduct = productCount;
     });
   }
+  void updateTotalApplies() async {
+    int appliesCount = await getTotalAppliesCount();
+    setState(() {
+      totalApplies = appliesCount;
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +67,7 @@ class _AccountDetailsState extends State<AccountDetails> {
 
           var userData = snapshot.data;
           updateTotalProduct();
+          updateTotalApplies();
           return ListView(
               padding: const EdgeInsets.only(top: 20),
               physics: const BouncingScrollPhysics(),
@@ -144,7 +153,7 @@ class _AccountDetailsState extends State<AccountDetails> {
       children: <Widget>[
         buildStatistic("Tedarik", totalProduct.toString(), context),
         SizedBox(height: 24, child: Container(child: const VerticalDivider())),
-        buildStatistic("Başvuru", userData?['basvuru'].toString(), context),
+        buildStatistic("Başvuru", totalApplies.toString(), context),
       ],
     ));
   }
@@ -222,6 +231,21 @@ getTotalProductCountCreatedByThisUser() async {
       .get()
       .then((value) => productNum = value.docs.length);
   return productNum;
+
+}
+
+getTotalAppliesCount() async {
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  final _user = _auth.currentUser;
+  final _userUid = _user!.uid;
+  int appliesNum = 0;
+
+  final _querySnapshot = await _firestore
+      .collection('Users').doc(_userUid).collection('AppliedProducts')
+      .get()
+      .then((value) => appliesNum = value.docs.length);
+  return appliesNum;
 }
 
 Widget buildUserInformations(userData) {
