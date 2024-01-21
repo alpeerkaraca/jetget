@@ -1,6 +1,6 @@
-# jetget
+# JetGet
 
-A new Flutter project.
+Mobil Programlama Final Ödevi Grup-3
 
 ## Getting Started
 
